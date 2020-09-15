@@ -1,2 +1,2 @@
 # CS241-coursedata
-codes of CS241
+codes for CS241
