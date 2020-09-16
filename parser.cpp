@@ -1,6 +1,6 @@
 // a naive version without optimizing
 
-// current version: only handle +,-,*,/
+// current version: only handle +,-,*,/,()
 
 // a trivial parser to handle naive arthemetic expr
 //      which only includes +,-,*,/,()
@@ -58,6 +58,7 @@ double func(const OPT &opt, const double &lhs, const double &rhs)
     switch (opt)
     {
     case EMPTY:
+    case BRACKET:
         return lhs;
     case PLUS:
         return lhs + rhs;
@@ -116,8 +117,13 @@ class Expression : public Item
 public:
     Expression(const char str[], int l, int r)
     {
+        // bracket counter
+        auto cnt = 0;
         for (int i = l; i <= r; ++i)
-            if (str[i] == '+' || str[i] == '-')
+        {
+            cnt += str[i] == '(';
+            cnt -= str[i] == ')';
+            if (cnt == 0 && str[i] == '+' || str[i] == '-')
             {
                 lhs = dynamic_pointer_cast<Item>(
                     make_shared<Term>(str, l, i - 1));
@@ -126,6 +132,8 @@ public:
                 opt = str[i] == '+' ? PLUS : MINUS;
                 break;
             }
+        }
+
         if (lhs == nullptr)
             lhs = dynamic_pointer_cast<Item>(
                 make_shared<Term>(str, l, r));
@@ -138,8 +146,13 @@ class Term : public Item
 public:
     Term(const char str[], int l, int r)
     {
+        // bracket counter
+        auto cnt = 0;
         for (int i = l; i <= r; ++i)
-            if (str[i] == '*' || str[i] == '/')
+        {
+            cnt += str[i] == '(';
+            cnt -= str[i] == ')';
+            if (cnt == 0 && str[i] == '*' || str[i] == '/')
             {
                 lhs = dynamic_pointer_cast<Item>(
                     make_shared<Primary>(str, l, i - 1));
@@ -148,6 +161,8 @@ public:
                 opt = str[i] == '*' ? TIMES : DIVISION;
                 break;
             }
+        }
+
         if (lhs == nullptr)
             lhs = dynamic_pointer_cast<Item>(
                 make_shared<Primary>(str, l, r));
@@ -161,30 +176,34 @@ public:
     Primary(const char str[], int l, int r)
     {
         opt = str[l] == '(' ? BRACKET : NUMBER;
-        // if (opt == BRACKET)
-        // {
-        //     lhs = make_shared<Expression>(str, l + 1, r - 1);
-        //     return;
-        // }
-
-        // number
-        bool flag = 0;
-        double base = 0.1;
-        val = 0;
-        for (int i = l; i <= r; ++i)
+        if (opt == BRACKET)
         {
-            if (str[i] == '.')
+            lhs = dynamic_pointer_cast<Item>(
+                make_shared<Expression>(str, l + 1, r - 1));
+            return;
+        }
+
+        if (opt == NUMBER)
+        {
+            bool flag = 0;
+            double base = 0.1;
+            val = 0;
+            for (int i = l; i <= r; ++i)
             {
-                flag = 1;
-                continue;
+                if (str[i] == '.')
+                {
+                    flag = 1;
+                    continue;
+                }
+                if (flag)
+                {
+                    val += base * (str[i] - '0');
+                    base /= 10;
+                }
+                else
+                    val = val * 10 + str[i] - '0';
             }
-            if (flag)
-            {
-                val += base * (str[i] - '0');
-                base /= 10;
-            }
-            else
-                val = val * 10 + str[i] - '0';
+            return;
         }
     }
 };
