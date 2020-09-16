@@ -10,6 +10,7 @@
 #include <memory>
 #include <cstring>
 #include <string>
+#include <cmath>
 #include <iostream>
 using std::cin, std::cout, std::endl;
 using std::dynamic_pointer_cast;
@@ -17,6 +18,7 @@ using std::shared_ptr, std::make_shared;
 using std::strlen;
 
 const int N = 1e3;
+const double eps = 1e-20;
 char str[N];
 enum OPT
 {
@@ -67,6 +69,8 @@ double func(const OPT &opt, const double &lhs, const double &rhs)
     case TIMES:
         return lhs * rhs;
     case DIVISION:
+        if (fabs(rhs) < eps)
+            throw std::overflow_error("divide by zero");
         return lhs / rhs;
     }
 }
@@ -79,7 +83,7 @@ double calc(shared_ptr<Item> o)
         lhs = calc(o->lhs);
     if (o->rhs != nullptr)
         rhs = calc(o->rhs);
-    return func(o->opt, lhs, rhs);
+    return o->val = func(o->opt, lhs, rhs);
 }
 
 class Expr_Compiler
@@ -100,8 +104,12 @@ public:
 
     void read()
     {
-        cin >> str;
-        len = strlen(str);
+        cin.getline(str, N - 1);
+        int ori_len = strlen(str);
+        // remove space
+        for (int i = 0; i < ori_len; ++i)
+            if (str[i] != ' ')
+                str[len++] = str[i];
     }
 
     void compile()
@@ -123,7 +131,7 @@ public:
         {
             cnt += str[i] == '(';
             cnt -= str[i] == ')';
-            if (cnt == 0 && str[i] == '+' || str[i] == '-')
+            if (cnt == 0 && (str[i] == '+' || str[i] == '-'))
             {
                 lhs = dynamic_pointer_cast<Item>(
                     make_shared<Term>(str, l, i - 1));
@@ -152,7 +160,7 @@ public:
         {
             cnt += str[i] == '(';
             cnt -= str[i] == ')';
-            if (cnt == 0 && str[i] == '*' || str[i] == '/')
+            if (cnt == 0 && (str[i] == '*' || str[i] == '/'))
             {
                 lhs = dynamic_pointer_cast<Item>(
                     make_shared<Primary>(str, l, i - 1));
@@ -214,6 +222,13 @@ int main()
     freopen("in", "r", stdin);
     c.read();
     c.compile();
-    cout << calc(c.ptr) << endl;
+    try
+    {
+        cout << calc(c.ptr) << endl;
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
     return 0;
 }
