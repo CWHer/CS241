@@ -26,3 +26,11 @@ codes for CS241 Principles and Practice of Problem Solving
 ![](images/H21.png)
 
 ![](images/H22.png)
+
+##### 3. assignment2
+
+```T1```：高斯消元
+
+```T2```：毒瘤雅各比迭代~~（不知道怎么区分无解，无穷解和不收敛~~
+
+```T3```：水题
