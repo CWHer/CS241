@@ -23,9 +23,9 @@ codes for CS241 Principles and Practice of Problem Solving
 
 ```T2,T3```：拉格朗日与牛顿插值
 
-![](images/H21.png)
+![](images/h21.png)
 
-![](images/H22.png)
+![](images/h22.png)
 
 ##### 3. assignment2
 
