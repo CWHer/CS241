@@ -27,7 +27,7 @@ codes for CS241 Principles and Practice of Problem Solving
 
 ![](images/h22.png)
 
-##### 3. assignment2
+##### 3. assignment3
 
 ```T1```：高斯消元
 
@@ -40,3 +40,9 @@ codes for CS241 Principles and Practice of Problem Solving
 ```T2```：毒瘤雅各比迭代~~（不知道怎么区分无解，无穷解和不收敛~~
 
 ```T3```：水题
+
+##### 4. assignment4
+
+```T1```：挺有意思的cuckoo hash，~~不会算复杂度~~
+
+```T2```：nth_element，~~口胡容易魔改难~~
