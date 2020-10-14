@@ -1,6 +1,8 @@
 # CS241 course data
 codes for CS241 Principles and Practice of Problem Solving
 
+`/others`：放了一些不在作业里但挺有趣的东西
+
 [TOC]
 
 ##### 1. assignment1
