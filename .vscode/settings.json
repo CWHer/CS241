@@ -67,6 +67,7 @@
         "list": "cpp",
         "unordered_set": "cpp",
         "xhash": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "complex": "cpp"
     }
 }
