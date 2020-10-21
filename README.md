@@ -48,3 +48,11 @@ codes for CS241 Principles and Practice of Problem Solving
 ```T1```：挺有意思的cuckoo hash，~~不会算复杂度~~
 
 ```T2```：nth_element，~~口胡容易魔改难~~
+
+##### 5. assignment5
+
+~~助教的接口太丑了~~
+
+`Trie`：没什么难度
+
+`K-D Tree`：完整版见`/others`
