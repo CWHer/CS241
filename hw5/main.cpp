@@ -1,6 +1,6 @@
 #include <iostream>
 // #include "tree.h"
-#include "tree.hpp"
+#include "tree.h"
 using namespace std;
 
 int main(int argc, const char *argv[])
