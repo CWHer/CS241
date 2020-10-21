@@ -57,6 +57,7 @@ private:
                 ret += sqr(min(fabs(o->mn[i] - x[i]), fabs(o->mx[i] - x[i])));
         return ret;
     }
+    // true if a==b
     bool equal(const vector<double> &a, const vector<double> &b)
     {
         for (int i = 0; i < dim_num; ++i)
@@ -64,6 +65,16 @@ private:
                 return 0;
         return 1;
     }
+    // true if a<=b
+    bool less(const vector<double> &a, const vector<double> &b)
+    {
+        for (int i = 0; i < dim_num; ++i)
+            if (a[i] > b[i] + eps)
+                return 0;
+        return 1;
+    }
+
+private:
     // return min with f=0
     //      or max with f=1
     shared_ptr<node> check(shared_ptr<node> a,
@@ -137,7 +148,7 @@ private:
         }
         if (x[dim] <= o->x[dim])
             insert(o->ls, x, (dim + 1) % dim_num);
-        else
+        if (x[dim] > o->x[dim])
             insert(o->rs, x, (dim + 1) % dim_num);
         push_up(o, o->ls, o->rs);
     }
@@ -156,6 +167,7 @@ private:
                 o = nullptr;
                 return;
             }
+            // randomly erase ls or rs
             bool f = Rand(gen);
             shared_ptr<node> nxt = find(f ? o->ls : o->rs, f, dim, (dim + 1) % dim_num);
             if (nxt == nullptr)
@@ -198,6 +210,20 @@ private:
                 closest_search(o->ls, x, min_dist, t);
         }
     }
+    // search range between low and high
+    void range_search(shared_ptr<node> o, int dim,
+                      const vector<double> &low, const vector<double> &high,
+                      vector<vector<double>> &t)
+    {
+        if (o == nullptr)
+            return;
+        if (less(low, o->x) && less(o->x, high))
+            t.push_back(o->x);
+        if (low[dim] <= o->x[dim])
+            range_search(o->ls, (dim + 1) % dim_num, low, high, t);
+        if (o->x[dim] <= high[dim])
+            range_search(o->rs, (dim + 1) % dim_num, low, high, t);
+    }
     // destructor
     void dfs_destruct(shared_ptr<node> &o)
     {
@@ -225,6 +251,14 @@ public:
     {
         erase(root, x, 0);
     }
+    // return a vector of node between low and high
+    vector<vector<double>> range_search(const vector<double> &low,
+                                        const vector<double> &high)
+    {
+        vector<vector<double>> t;
+        range_search(root, 0, low, high, t);
+        return t;
+    }
     // return a pair of (min_dist,min_dist_node)
     pair<double, vector<double>> closest_search(const vector<double> &x)
     {
@@ -232,7 +266,7 @@ public:
         vector<double> t(dim_num);
         if (root != nullptr)
             closest_search(root, x, min_dist, t);
-        return pair<double, vector<double>>(sqrt(min_dist), move(t));
+        return make_pair(sqrt(min_dist), t);
     }
 } T(2);
 
