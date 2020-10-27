@@ -56,3 +56,9 @@ codes for CS241 Principles and Practice of Problem Solving
 `Trie`：没什么难度
 
 `K-D Tree`：完整版见`/others`
+
+##### 6. assignment6
+
+`T1`：MST....
+
+`T2`：证明贪心在背包问题的两种特殊情况下的正确性，~~我大概是证对了吧~~
