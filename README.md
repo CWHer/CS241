@@ -62,3 +62,12 @@ codes for CS241 Principles and Practice of Problem Solving
 `T1`：MST....
 
 `T2`：证明贪心在背包问题的两种特殊情况下的正确性，~~我大概是证对了吧~~
+
+##### 7. assignment7
+
+`T1`：LCS
+
+`T2`：遗传算法与调参
+
+`T3`：编辑距离
+

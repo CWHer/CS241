@@ -1,4 +1,6 @@
-`FFT`
+[TOC]
+
+#### FFT
 
 > 复习了一下之前不太理解的快速傅里叶变换
 >
@@ -15,7 +17,7 @@
 >
 > 参考链接：[link](https://zhuanlan.zhihu.com/p/31584464)
 
-`K-D Tree`
+#### K-D Tree
 
 > 一直想写但没写的K-D Tree
 >
@@ -38,6 +40,12 @@
 > `range search`：待续
 >
 > `closest search`：仿照BVH，再维护一个bounding box，~~那这还是K-D Tree么~~
+>
+> 待续
+
+#### NN
+
+> 朴素神经网络
 >
 > 待续
 
