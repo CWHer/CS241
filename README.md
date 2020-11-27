@@ -17,7 +17,7 @@ codes for CS241 Principles and Practice of Problem Solving
 
 简易的四则运算表达式解析器
 
-![](images/expr.png)
+<img src="images/expr.png" style="zoom: 33%;" />
 
 ##### 2. assignment2
 
@@ -25,9 +25,9 @@ codes for CS241 Principles and Practice of Problem Solving
 
 ```T2,T3```：拉格朗日与牛顿插值
 
-![](images/h21.png)
+<img src="images/h21.png" style="zoom:33%;" />
 
-![](images/h22.png)
+<img src="images/h22.png" style="zoom:33%;" />
 
 ##### 3. assignment3
 
@@ -71,3 +71,10 @@ codes for CS241 Principles and Practice of Problem Solving
 
 `T3`：编辑距离
 
+##### 8. assignment8
+
+关于机器学习的一些题目
+
+##### 9. assignment9
+
+Qt入门小程序
