@@ -1,6 +1,8 @@
 # CS241 course data
 codes for CS241 Principles and Practice of Problem Solving
 
+[课程资料](https://drive.google.com/drive/folders/1z-vLeSN1lLc_zrLrd6zl0w_Na2fULgqh?usp=sharing)
+
 `/others`：放了一些不在作业里但挺有趣的东西
 
 [TOC]
