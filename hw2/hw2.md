@@ -8,7 +8,7 @@ The complexity of both my Lagrange interpolation and Newton interpolation is $O(
 
 #### Q3
 
-<img src="figure.png" style="zoom: 80%;" />
+<img src="../images/figure.png" style="zoom: 80%;" />
 
 We can find that results of both interpolation methods are exactly the same. Because n unique points can determine only one $P_n$. Additionally, though interpolation results can meet the original line at given points, it differs largely from the original line in other values, which I find may be Runge phenomenon after searching through Internet.
 

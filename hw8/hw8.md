@@ -6,11 +6,11 @@
 
    下图为课件上的实验结果
 
-   <img src="deeper1.png" style="zoom: 33%;" />
+   <img src="../images/deeper1.png" style="zoom: 33%;" />
 
    同时深度也可以使得网络模组化
 
-   <img src="deeper2.png" style="zoom:33%;" />
+   <img src="../images/deeper2.png" style="zoom:33%;" />
 
 2. 我认为主要有以下几点
 
@@ -34,7 +34,7 @@ output value>0.5 结果为1否则结果为0
 
 在附录中附有python实现的代码，
 
-<img src="nn.png" style="zoom: 67%;" />
+<img src="../images/nn.png" style="zoom: 67%;" />
 
 
 

@@ -80,3 +80,9 @@ codes for CS241 Principles and Practice of Problem Solving
 ##### 9. assignment9
 
 Qt入门小程序
+
+qfiledialog+qchart
+
+##### 10. final
+
+见`/final`

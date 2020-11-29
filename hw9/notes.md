@@ -153,7 +153,7 @@ use xxx.show() afterwards
 
 #### 1.QMainWindow
 
-<img src="mainwindow.png" style="zoom: 50%;" />
+<img src="../images/mainwindow.png" style="zoom: 50%;" />
 
 
 
