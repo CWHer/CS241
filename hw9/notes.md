@@ -299,3 +299,9 @@ if (ret == QMessageBox::Ok)
 ```
 
 ##### 3.4Customize
+
+
+
+### Thread
+
+QThread

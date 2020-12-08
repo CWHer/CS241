@@ -3,3 +3,5 @@ out
 ans
 *.exe
 *.o
+*Debug
+test*

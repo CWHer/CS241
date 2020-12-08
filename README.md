@@ -79,7 +79,7 @@ codes for CS241 Principles and Practice of Problem Solving
 
 ##### 9. assignment9
 
-Qt入门小程序
+Qt入门小程序ugly but usable
 
 qfiledialog+qchart
 
