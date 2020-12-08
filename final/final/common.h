@@ -1,6 +1,7 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+#include <QCheckBox>
 #include <QDir>
 #include <QErrorMessage>
 #include <QFileDialog>
@@ -12,6 +13,8 @@
 #include <QString>
 #include <QTextStream>
 #include <QThread>
+#include <QTreeWidget>
+#include <QTreeWidgetItem>
 #include <QVBoxLayout>
 #include <memory>
 #include <utility>

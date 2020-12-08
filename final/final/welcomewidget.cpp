@@ -8,9 +8,10 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
 // ***********************
 // todo: add background img and beautify
 void WelcomeWidget::setupLayouts() {
+    QFont font = QFont("consolas", 10);
     this->resize(WIDTH, HEIGHT);
     this->setWindowTitle("see it!");
-    this->setFont(QFont("consolas", 8));
+    this->setFont(font);
     QVBoxLayout *outerlayout = new QVBoxLayout(this);
 
     // top

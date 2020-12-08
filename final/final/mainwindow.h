@@ -23,13 +23,28 @@ class MainWindow : public QMainWindow {
     void setWelcome();
 
   private:
+    static const int WIDTH = 800;
+    static const int HEIGHT = 600;
     // a welcome widget
     //  also load data
     WelcomeWidget *welcome;
     DataBase *db;
     Ui::MainWindow *ui;
+    // elements in mainwindow gui
+    QWidget *centralwidget;
+    // main layout for plot
+    //  can be intialized by setxxxPlot
+    QVBoxLayout *mainlayout;
+
+  public:
     void setupLayouts();
     void setupConnects();
     void switchwindow();
+    // data vs space
+    void setSpaticalPlot();
+    // data vs time
+    void setTimePlot();
+    // some important infomation
+    void setInfoPlot();
 };
 #endif // MAINWINDOW_H
