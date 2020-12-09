@@ -1,6 +1,7 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+#include <QChartView>
 #include <QCheckBox>
 #include <QDir>
 #include <QErrorMessage>
@@ -11,6 +12,7 @@
 #include <QPushButton>
 #include <QRegExp>
 #include <QString>
+#include <QTabWidget>
 #include <QTextStream>
 #include <QThread>
 #include <QTreeWidget>
@@ -19,6 +21,7 @@
 #include <memory>
 #include <utility>
 #include <vector>
+QT_CHARTS_USE_NAMESPACE
 using std::make_pair;
 using std::make_shared;
 using std::shared_ptr;

@@ -1,4 +1,5 @@
 QT       += core gui
+QT       += charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,16 +11,22 @@ CONFIG += c++11
 
 SOURCES += \
     database.cpp \
+    infoplot.cpp \
     loadthread.cpp \
     main.cpp \
     mainwindow.cpp \
+    spatialplot.cpp \
+    timeplot.cpp \
     welcomewidget.cpp
 
 HEADERS += \
     common.h \
     database.h \
+    infoplot.h \
     loadthread.h \
     mainwindow.h \
+    spatialplot.h \
+    timeplot.h \
     utils.h \
     welcomewidget.h
 

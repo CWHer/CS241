@@ -3,6 +3,9 @@
 
 #include "common.h"
 #include "database.h"
+#include "infoplot.h"
+#include "spatialplot.h"
+#include "timeplot.h"
 #include "utils.h"
 #include "welcomewidget.h"
 #include <QMainWindow>
@@ -30,21 +33,16 @@ class MainWindow : public QMainWindow {
     WelcomeWidget *welcome;
     DataBase *db;
     Ui::MainWindow *ui;
-    // elements in mainwindow gui
-    QWidget *centralwidget;
-    // main layout for plot
-    //  can be intialized by setxxxPlot
-    QVBoxLayout *mainlayout;
+    QTabWidget *centralwidget;
+    // main widget
+    //  can be intialized by xxxPlot
+    SpatialPlot *spatialplot;
+    TimePlot *timeplot;
+    InfoPlot *infoplot;
 
   public:
     void setupLayouts();
     void setupConnects();
     void switchwindow();
-    // data vs space
-    void setSpaticalPlot();
-    // data vs time
-    void setTimePlot();
-    // some important infomation
-    void setInfoPlot();
 };
 #endif // MAINWINDOW_H

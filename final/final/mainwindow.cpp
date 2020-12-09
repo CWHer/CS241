@@ -6,6 +6,9 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow) {
     ui->setupUi(this);
     db = new DataBase();
+
+    //    timeplot = new TimePlot(WIDTH, HEIGHT);
+    //    infoplot = new InfoPlot(WIDTH, HEIGHT);
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -17,62 +20,30 @@ void MainWindow::setWelcome() {
     connect(welcome, &WelcomeWidget::switchwindow, this, &MainWindow::switchwindow);
 }
 
-// data filter + graph
-//  + top switchbar
 void MainWindow::setupLayouts() {
     QFont font = QFont("consolas", 10);
     this->resize(WIDTH, HEIGHT);
     this->setWindowTitle("see it");
     this->setFont(font);
 
-    centralwidget = new QWidget();
-    QHBoxLayout *outer_layout = new QHBoxLayout(centralwidget);
-    // left side
-    // data filter
-    QTreeWidget *left_side = new QTreeWidget();
-    left_side->setHeaderLabel("selector");
-    left_side->setFont(font);
-    // add date
-    QTreeWidgetItem *date = new QTreeWidgetItem(left_side);
-    date->setText(0, "date");
-    date->setFont(0, font);
-    date->setFlags(date->flags() | Qt::ItemIsAutoTristate);
-    for (int i = 0; i < 10; ++i) {
-        auto ch = new QTreeWidgetItem(date);
-        ch->setText(0, "QString(i)");
-        ch->setFont(0, font);
-        ch->setCheckState(0, Qt::Unchecked);
-    }
-    // add item
-    QTreeWidgetItem *item = new QTreeWidgetItem(left_side);
-    item->setText(0, "item");
-    item->setFont(0, font);
-    item->setFlags(date->flags() | Qt::ItemIsAutoTristate);
-    for (int i = 0; i < 10; ++i) {
-        auto ch = new QTreeWidgetItem(item);
-        ch->setText(0, "QString(i)");
-        ch->setFont(0, font);
-        ch->setCheckState(0, Qt::Unchecked);
-    }
+    // centralwidget begin
+    centralwidget = new QTabWidget();
 
-    left_side->setMinimumWidth(WIDTH / 5);
-    left_side->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
-    outer_layout->addWidget(left_side);
+    spatialplot = new SpatialPlot(WIDTH, HEIGHT);
+    spatialplot->setupLayouts();
+    centralwidget->addTab(spatialplot->main_widget, "SpatialMap");
 
-    // right side
-    // graph and operations
-    outer_layout->addLayout(mainlayout);
+    timeplot = new TimePlot(WIDTH, HEIGHT);
+    timeplot->setupLayouts();
+    centralwidget->addTab(timeplot->main_widget, "Data-Time");
 
-    // top switchbar
+    infoplot = new InfoPlot(WIDTH, HEIGHT);
+    infoplot->setupLayouts();
+    centralwidget->addTab(infoplot->main_widget, "Info");
 
     this->setCentralWidget(centralwidget);
+    // centralwidget end
 }
-
-void MainWindow::setSpaticalPlot() {}
-
-void MainWindow::setTimePlot() {}
-
-void MainWindow::setInfoPlot() {}
 
 void MainWindow::setupConnects() {
 
