@@ -3,7 +3,7 @@
 
 #include "common.h"
 #include "database.h"
-#include "loadthread.h"
+#include "mythread.hpp"
 #include <QWidget>
 
 class WelcomeWidget : public QWidget {
@@ -23,9 +23,10 @@ class WelcomeWidget : public QWidget {
     void setupLayouts();
     void setupConnects();
     void loadData();
+    void loadDone();
 
   signals:
-    void switchwindow();
+    void switchWindow();
 };
 
 #endif // WIDGET_H

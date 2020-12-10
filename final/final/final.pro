@@ -12,7 +12,6 @@ CONFIG += c++11
 SOURCES += \
     database.cpp \
     infoplot.cpp \
-    loadthread.cpp \
     main.cpp \
     mainwindow.cpp \
     spatialplot.cpp \
@@ -23,8 +22,8 @@ HEADERS += \
     common.h \
     database.h \
     infoplot.h \
-    loadthread.h \
     mainwindow.h \
+    mythread.hpp \
     spatialplot.h \
     timeplot.h \
     utils.h \

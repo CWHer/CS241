@@ -6,9 +6,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow) {
     ui->setupUi(this);
     db = new DataBase();
-
-    //    timeplot = new TimePlot(WIDTH, HEIGHT);
-    //    infoplot = new InfoPlot(WIDTH, HEIGHT);
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -17,7 +14,7 @@ void MainWindow::setWelcome() {
     welcome = new WelcomeWidget();
     welcome->db = db;
     welcome->show();
-    connect(welcome, &WelcomeWidget::switchwindow, this, &MainWindow::switchwindow);
+    connect(welcome, &WelcomeWidget::switchWindow, this, &MainWindow::switchWindow);
 }
 
 void MainWindow::setupLayouts() {
@@ -30,7 +27,7 @@ void MainWindow::setupLayouts() {
     centralwidget = new QTabWidget();
 
     spatialplot = new SpatialPlot(WIDTH, HEIGHT);
-    spatialplot->setupLayouts();
+    spatialplot->setupLayouts(db);
     centralwidget->addTab(spatialplot->main_widget, "SpatialMap");
 
     timeplot = new TimePlot(WIDTH, HEIGHT);
@@ -52,7 +49,9 @@ void MainWindow::setupConnects() {
     //
 }
 
-void MainWindow::switchwindow() {
+void MainWindow::switchWindow() {
     delete welcome;
+    setupLayouts();
+    setupConnects();
     show();
 };

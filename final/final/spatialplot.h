@@ -2,7 +2,7 @@
 #define SPATICALPLOT_H
 
 #include "common.h"
-#include <QWidget>
+#include "database.h"
 
 // data filter + graph
 class SpatialPlot : public QWidget {

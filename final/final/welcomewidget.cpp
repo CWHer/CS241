@@ -66,13 +66,22 @@ void WelcomeWidget::getPath() {
 }
 
 // load data to database
-// using another thread
+//  using another thread
 void WelcomeWidget::loadData() {
-    LoadThread *loader = new LoadThread;
-    loader->init(folder_path, db);
-    connect(loader, &LoadThread::setValue, this, &WelcomeWidget::setBarValue);
-    connect(loader, &LoadThread::switchwindow, this, &WelcomeWidget::switchwindow);
+    db->folder_path = folder_path;
+    db->parseFolder();
+    auto loader = new myThread();
+    connect(db, &DataBase::loadDone, this, &WelcomeWidget::loadDone);
+    connect(db, &DataBase::setValue, this, &WelcomeWidget::setBarValue);
+    connect(loader, &myThread::funcStart, db, &DataBase::loadData);
+    db->moveToThread(loader);
     loader->start();
+}
+
+void WelcomeWidget::loadDone() {
+    // move back and switch window
+    db->moveToThread(QThread::currentThread());
+    emit switchWindow();
 }
 
 void WelcomeWidget::setBarValue(double value) {

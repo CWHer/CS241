@@ -22,9 +22,9 @@ void SpatialPlot::setupLayouts() {
     date->setText(0, "Date");
     date->setFont(0, font);
     date->setFlags(date->flags() | Qt::ItemIsAutoTristate);
-    for (int i = 0; i < 10; ++i) {
+    for (auto i = 1; i <= DAY_NUM; ++i) {
         auto ch = new QTreeWidgetItem(date);
-        ch->setText(0, "QString(i)");
+        ch->setText(0, "11-" + QString::number(i));
         ch->setFont(0, font);
         ch->setCheckState(0, Qt::Unchecked);
     }
@@ -33,9 +33,10 @@ void SpatialPlot::setupLayouts() {
     item->setText(0, "Item");
     item->setFont(0, font);
     item->setFlags(date->flags() | Qt::ItemIsAutoTristate);
-    for (int i = 0; i < 10; ++i) {
+    QStringList tag_list = {"aaa", "bbb", "ccc"};
+    for (const auto &tag : tag_list) {
         auto ch = new QTreeWidgetItem(item);
-        ch->setText(0, "QString(i)");
+        ch->setText(0, tag);
         ch->setFont(0, font);
         ch->setCheckState(0, Qt::Unchecked);
     }
@@ -86,3 +87,5 @@ void SpatialPlot::setupLayouts() {
     outer_layout->addLayout(right_part);
     // right part end
 }
+
+void plotMap(DataBase *db) {}

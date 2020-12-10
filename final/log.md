@@ -25,17 +25,17 @@
 
 #### 模块列表
 
-| 名称          | 作用                               | 函数                     |
-| ------------- | ---------------------------------- | ------------------------ |
-| MainWindow    | 主界面                             |                          |
-| WelcomeWidget | 欢迎界面，选择数据，调用LoadThread | getPath/setBarValue/load |
-| LoadThread    | 分支线程，读取数据，完成后切换窗口 | run                      |
-| DataBase      | 存储数据的类                       |                          |
-| SpatialPlot   | 用于生成绘制空图案的widget         | setupLayouts             |
-| TimePlot      | 绘制时间相关内容                   |                          |
-| InfoPlot      | 绘制其它重要信息                   |                          |
-|               |                                    |                          |
-|               |                                    |                          |
+| 名称          | 作用                                 | 函数                 |
+| ------------- | ------------------------------------ | -------------------- |
+| MainWindow    | 主界面                               |                      |
+| WelcomeWidget | 欢迎界面，选择数据，调用DataBase读取 | getPath/setBarValue  |
+| myThread      | 发送funcStart信号                    |                      |
+| DataBase      | 存储数据的类，解析文件夹，读取数据   | parseFolder/loadData |
+| SpatialPlot   | 用于生成绘制空图案的widget           | setupLayouts         |
+| TimePlot      | 绘制时间相关内容                     |                      |
+| InfoPlot      | 绘制其它重要信息                     |                      |
+|               |                                      |                      |
+|               |                                      |                      |
 
 #### Ver 0.1
 
@@ -55,7 +55,7 @@
 
 刚完成简陋的布局，后端逻辑没有任何进度
 
-主界面使用`QTabWidget`管理多个窗口，画图区域使用xxxPlot类生成布局
+主界面使用`QTabWidget`管理多个窗口，画图区域使用`xxxPlot`类生成布局
 
 空间地图：左侧筛选数据，右侧空间地图
 
@@ -65,9 +65,9 @@
 
 #### Ver 0.21
 
-`todo`
+重写Ver0.11引入的另一个线程类，并入`DataBase`
 
-- [ ] 重写Ver0.11引入的另一个线程类，并入DateBase
+`DataBase`有了读取数据的方法，`myThread`仅发送开始信号
 
 #### Ver 0.3
 

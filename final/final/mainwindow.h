@@ -26,8 +26,8 @@ class MainWindow : public QMainWindow {
     void setWelcome();
 
   private:
-    static const int WIDTH = 800;
-    static const int HEIGHT = 600;
+    static const int WIDTH = 1200;
+    static const int HEIGHT = 900;
     // a welcome widget
     //  also load data
     WelcomeWidget *welcome;
@@ -43,6 +43,6 @@ class MainWindow : public QMainWindow {
   public:
     void setupLayouts();
     void setupConnects();
-    void switchwindow();
+    void switchWindow();
 };
 #endif // MAINWINDOW_H

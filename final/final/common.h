@@ -24,6 +24,7 @@
 QT_CHARTS_USE_NAMESPACE
 using std::make_pair;
 using std::make_shared;
+using std::pair;
 using std::shared_ptr;
 using std::vector;
 using Pos = std::pair<double, double>;
