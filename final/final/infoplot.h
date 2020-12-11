@@ -2,19 +2,19 @@
 #define INFOPLOT_H
 
 #include "common.h"
-#include <QWidget>
+#include "xxxplot.h"
 
-class InfoPlot : public QWidget {
+class InfoPlot : public xxxPlot {
     Q_OBJECT
   public:
-    explicit InfoPlot(const int, const int, QWidget *parent = nullptr);
+    explicit InfoPlot(const int, const int);
     QWidget *main_widget;
     QTreeWidget *info_filter;
-    void setupLayouts();
+    void setupLayouts() override;
+    void plotMap() override;
 
   private:
     const int WIDTH, HEIGHT;
-  signals:
 };
 
 #endif // INFOPLOT_H

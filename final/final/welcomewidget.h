@@ -17,7 +17,7 @@ class WelcomeWidget : public QWidget {
 
   private:
     static const auto WIDTH = 400;
-    static const auto HEIGHT = 500;
+    static const auto HEIGHT = 600;
     QPushButton *selectfolder;
     QProgressBar *loadbar;
     void setupLayouts();

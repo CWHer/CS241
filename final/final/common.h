@@ -3,11 +3,16 @@
 
 #include <QChartView>
 #include <QCheckBox>
+#include <QComboBox>
+#include <QDateTime>
 #include <QDir>
 #include <QErrorMessage>
 #include <QFileDialog>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QLineEdit>
+#include <QLineSeries>
+#include <QLocale>
 #include <QProgressBar>
 #include <QPushButton>
 #include <QRegExp>
@@ -29,18 +34,19 @@ using std::shared_ptr;
 using std::vector;
 using Pos = std::pair<double, double>;
 
-static const auto DAY_NUM = 15;
-struct tour {
+const auto DAY_NUM = 15;
+struct Tour {
     QString id;
     int start, end;
-    Pos ori, dest;
+    Pos src, dst;
     double fee;
 };
-
-static const auto GRID_NUM = 10;
-struct grid {
+const auto GRID_NUM = 100;
+const auto GRID_PER = 10;
+struct Grid {
     int id;
-    Pos x1, x2, y1, y2;
+    Pos y1, y2, x1, x2;
 };
+enum PlotType { LINE, PIE };
 
 #endif // COMMON_H

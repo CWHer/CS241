@@ -1,8 +1,7 @@
 #include "infoplot.h"
 
-InfoPlot::InfoPlot(const int w, const int h, QWidget *parent)
-    : QWidget(parent)
-    , WIDTH(w)
+InfoPlot::InfoPlot(const int w, const int h)
+    : WIDTH(w)
     , HEIGHT(h) {}
 
 void InfoPlot::setupLayouts() {
@@ -46,3 +45,5 @@ void InfoPlot::setupLayouts() {
 
     outer_layout->addWidget(plot_area);
 }
+
+void InfoPlot::plotMap() {}

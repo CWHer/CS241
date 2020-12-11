@@ -2,58 +2,54 @@
 
 - [ ] 美化欢迎界面
 - [ ] 图标
-- [ ] 支持后期删除和加入数据
-
-- [ ] 主界面布局
-
+- [ ] 支持后期删除和加入数据x
+- [x] 主界面简陋布局
 - [ ] 数据选择
-
 - [ ] 数据可视化
 - [ ] 线图/饼图
 - [ ] 插值
 - [ ] 地图绘制
+- [ ] 弹出dialog选择grid id
 - [ ] elective：thermal/direction
 - [ ] elective：route plan (单源最短路)
+- [ ] 增加数据处理线程
 - [ ] 多线程计算
-
 - [ ] 多线程加快读入
-
-- [ ] 二分查找grid
-- [ ] 支持后期加入删除数据集
+- [ ] 修复内存泄漏x
 
 ### 开发中
 
 #### 模块列表
 
-| 名称          | 作用                                 | 函数                 |
-| ------------- | ------------------------------------ | -------------------- |
-| MainWindow    | 主界面                               |                      |
-| WelcomeWidget | 欢迎界面，选择数据，调用DataBase读取 | getPath/setBarValue  |
-| myThread      | 发送funcStart信号                    |                      |
-| DataBase      | 存储数据的类，解析文件夹，读取数据   | parseFolder/loadData |
-| SpatialPlot   | 用于生成绘制空图案的widget           | setupLayouts         |
-| TimePlot      | 绘制时间相关内容                     |                      |
-| InfoPlot      | 绘制其它重要信息                     |                      |
-|               |                                      |                      |
-|               |                                      |                      |
+| 名称          | 作用                                         | 函数                 |
+| ------------- | -------------------------------------------- | -------------------- |
+| MainWindow    | 主界面                                       |                      |
+| WelcomeWidget | 欢迎界面，选择数据，调用DataBase读取         | getPath/setBarValue  |
+| myThread      | 发送funcStart信号                            |                      |
+| DataBase      | 存储数据的类，解析文件夹，读取数据，处理数据 | parseFolder/loadData |
+| SpatialPlot   | 用于生成绘制空图案的widget                   | setupLayouts         |
+| TimePlot      | 绘制时间相关内容                             |                      |
+| InfoPlot      | 绘制其它重要信息                             |                      |
+|               |                                              |                      |
+|               |                                              |                      |
 
 #### Ver 0.1
 
-`welcome widget`
+- [x] `welcome widget`
 
 欢迎界面，可以选择数据导入，有进度条显示进度
 
-`mainwindow`
+- [x] `mainwindow`
 
 导入数据完成关闭`welcome`，打开`mainwindow`
 
 #### Ver 0.11
 
-导入数据支持使用另一个线程
+- [x] 导入数据支持使用另一个线程
 
 #### Ver 0.2
 
-刚完成简陋的布局，后端逻辑没有任何进度
+- [x] 刚完成简陋的布局，后端逻辑没有任何进度
 
 主界面使用`QTabWidget`管理多个窗口，画图区域使用`xxxPlot`类生成布局
 
@@ -65,7 +61,7 @@
 
 #### Ver 0.21
 
-重写Ver0.11引入的另一个线程类，并入`DataBase`
+- [x] 重写Ver0.11引入的另一个线程类，并入`DataBase`
 
 `DataBase`有了读取数据的方法，`myThread`仅发送开始信号
 
@@ -73,13 +69,42 @@
 
 `todo`
 
-- [ ] 完成线图和饼图
+- [ ] 处理数据，排序分类，时间转换
+- [ ] 完成线图
+- [ ] 完成饼图
+- [ ] 插值绘制线图
+- [x] 使用一个虚基类xxxPlot重构了三个绘图类
+
+#### Ver 0.31
+
+`todo`
+
+- [ ] 数据处理在导入完成后立即开始，并锁至处理完成
+- [ ] 绘图关联进度条
+
+#### Ver 0.32
+
+`todo`
+
+- [ ] 增加一个可以选择`grid`的`Dialog`
 
 #### Ver 0.4
 
 `todo`
 
 - [ ] 完成其它信息绘制
+
+#### Ver 0.5
+
+`todo`
+
+- [ ] 完成热力图
+
+#### Ver 0.6
+
+`todo`
+
+- [ ] 完成路线规划
 
 
 
@@ -93,7 +118,29 @@
 
 ---
 
-### 开发完成
+### 基本开发完成
 
 #### Ver1.0
+
+- [ ] 完成基本功能
+
+#### Ver 1.1
+
+- [ ] 美化背景
+
+#### Ver 1.11
+
+- [ ] 美化图标
+
+#### Ver 1.2
+
+- [ ] 优化数据处理及绘图的速度
+
+#### Ver 2.0
+
+- [ ] 完成report
+
+#### Ver 2.1
+
+- [ ] 完成demo
 

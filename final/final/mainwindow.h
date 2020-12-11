@@ -8,6 +8,7 @@
 #include "timeplot.h"
 #include "utils.h"
 #include "welcomewidget.h"
+#include "xxxplot.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -44,5 +45,6 @@ class MainWindow : public QMainWindow {
     void setupLayouts();
     void setupConnects();
     void switchWindow();
+    void resetPlot(xxxPlot *);
 };
 #endif // MAINWINDOW_H

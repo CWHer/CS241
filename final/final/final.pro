@@ -27,7 +27,8 @@ HEADERS += \
     spatialplot.h \
     timeplot.h \
     utils.h \
-    welcomewidget.h
+    welcomewidget.h \
+    xxxplot.h
 
 FORMS += \
     mainwindow.ui

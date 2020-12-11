@@ -1,8 +1,7 @@
 #include "spatialplot.h"
 
-SpatialPlot::SpatialPlot(const int w, const int h, QWidget *parent)
-    : QWidget(parent)
-    , WIDTH(w)
+SpatialPlot::SpatialPlot(const int w, const int h)
+    : WIDTH(w)
     , HEIGHT(h) {}
 
 void SpatialPlot::setupLayouts() {
@@ -88,4 +87,4 @@ void SpatialPlot::setupLayouts() {
     // right part end
 }
 
-void plotMap(DataBase *db) {}
+void SpatialPlot::plotMap() {}

@@ -2,23 +2,23 @@
 #define SPATICALPLOT_H
 
 #include "common.h"
-#include "database.h"
+#include "xxxplot.h"
 
 // data filter + graph
-class SpatialPlot : public QWidget {
+class SpatialPlot : public xxxPlot {
     Q_OBJECT
   public:
-    explicit SpatialPlot(const int, const int, QWidget *parent = nullptr);
+    explicit SpatialPlot(const int, const int);
     QVBoxLayout *plot_layout;
     QTreeWidget *data_filter;
     QProgressBar *bar;
     QChartView *plot_area;
     QWidget *main_widget;
-    void setupLayouts();
+    void setupLayouts() override;
+    void plotMap() override;
 
   private:
     const int WIDTH, HEIGHT;
-  signals:
 };
 
 #endif // SPATICALPLOT_H
