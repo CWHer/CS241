@@ -149,7 +149,7 @@ void TimePlot::setupConnects() {
 
 void TimePlot::plotMap() {
     // get settings
-    progress_bar->setValue(33);
+
     //********************
     // todo: grid selection
     grid_id.clear();
@@ -162,7 +162,9 @@ void TimePlot::plotMap() {
     start_hour = start_combo->currentText().toInt();
     end_hour = end_combo->currentText().toInt();
     step_min = step_combo->currentText().toInt();
-    // using another thread
+    progress_bar->setValue(33);
+
+    // using another thread to plot
     if (type_combo->currentText() == "Line Chart") {
         //        auto painter = new myThread();
         //        connect(painter, &myThread::funcStart, this, &TimePlot::plotLineMap);
@@ -183,7 +185,7 @@ void TimePlot::plotMap() {
 void TimePlot::calcSeries(vector<pair<int, int>> &data_series) {
     // int -> 2 byte fix length string
     auto num2str = [](const int &x) -> QString { return (x < 10 ? "0" : "") + QString::number(x); };
-    for (auto i = start_hour * 60; i <= end_hour * 60; i += step_min) {
+    for (auto i = start_hour * 60; i + step_min <= end_hour * 60; i += step_min) {
         // transform time to Unix time stamp
         //  hh:mm:ss
         QString time_day = num2str(i / 60) + ":" + num2str(i % 60) + ":00";
@@ -207,19 +209,6 @@ void TimePlot::plotSeriesMap() {
     progress_bar->setValue(67);
     for (const auto &wi : data_series)
         series->append(wi.first, wi.second);
-    // move to calcseries
-    //    auto num2str = [](const int &x) -> QString { return (x < 10 ? "0" : "") + QString::number(x); };
-    //    for (auto i = start_hour * 60; i <= end_hour * 60; i += step_min) {
-    //        // transform time to Unix time stamp
-    //        //  hh:mm:ss
-    //        QString time_day = num2str(i / 60) + ":" + num2str(i % 60) + ":00";
-    //        QString time_str = "2016-11-" + num2str(day) + " " + time_day;
-    //        QDateTime time_now = QLocale(QLocale::Chinese, QLocale::China).toDateTime(time_str, "yyyy-MM-dd
-    //        hh:mm:ss"); time_now.setTimeSpec(Qt::UTC); auto start_time = time_now.toTime_t(); auto end_time =
-    //        start_time + step_min * 60; int num = 0; for (auto &id : grid_id)
-    //            num += db->startCount(id, start_time, end_time);
-    //        series->append(i, num);
-    //    }
     auto chart = new QChart();
     chart->legend()->hide();
     chart->createDefaultAxes();

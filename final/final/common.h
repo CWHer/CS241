@@ -49,6 +49,5 @@ struct Grid {
     int id;
     Pos y1, y2, x1, x2;
 };
-enum PlotType { LINE, PIE };
 
 #endif // COMMON_H

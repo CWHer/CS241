@@ -3,11 +3,8 @@
 - [ ] 美化欢迎界面
 - [ ] 图标
 - [ ] 支持后期删除和加入数据x
-- [x] 主界面简陋布局
 - [ ] 数据选择
 - [ ] 数据可视化
-- [x] 线图/饼图
-- [x] 插值
 - [ ] 地图绘制
 - [ ] 弹出dialog选择grid id
 - [ ] elective：thermal/direction
@@ -75,15 +72,19 @@ lambda表达式和函数指针真好用.jpg
 - [x] 插值绘制线图，QSplineSeries
 - [x] 使用一个虚基类xxxPlot重构了三个绘图类
 
-<img src="../images/ver0.3-series.png" style="zoom: 25%;" />
+![](../images/ver0.3-series.png)
 
-<img src="../images/ver0.3-pie.png" style="zoom: 25%;" />
+![](../images/ver0.3-pie.png)
 
 #### Ver 0.4
 
-`todo`
+- [x] 完成其它信息绘制
 
-- [ ] 完成其它信息绘制
+单位时间内行程平均时间/平均费用图形
+
+类型：所有15天全部展开，或者每天相同时间累加到一起
+
+![](../images/ver0.4.png)
 
 #### Ver 0.5
 
@@ -95,6 +96,8 @@ lambda表达式和函数指针真好用.jpg
 - [ ] 绘图关联进度条，并使用另一个线程，添加图例注记，颜色调整
 - [ ] 增加一个可以选择`grid`的`Dialog`
 - [ ] 程序结束后段错误......
+- [ ] 图形左右/鼠标拖动来避免过于密集
+- [ ] 画图速度太快了....直接在主线程处理....
 
 #### Ver 0.6
 

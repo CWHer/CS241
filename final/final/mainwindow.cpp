@@ -31,6 +31,7 @@ void MainWindow::setupLayouts() {
     infoplot = new InfoPlot(WIDTH, HEIGHT, db, QThread::currentThread());
     connect(infoplot, &InfoPlot::resetPlot, this, &MainWindow::resetPlot);
     infoplot->setupLayouts();
+    infoplot->setupConnects();
     centralwidget->addTab(infoplot->main_widget, "Infomation");
 
     spatialplot = new SpatialPlot(WIDTH, HEIGHT, db, QThread::currentThread());

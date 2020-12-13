@@ -113,11 +113,38 @@ int DataBase::endCount(int id, int ql, int qr) {
     return rs - ls;
 }
 
+double DataBase::feeCount(int id, int ql, int qr) {
+    Tour start_key, end_key;
+    start_key.start = ql, end_key.start = qr;
+    auto func = [](const Tour &lhs, const Tour &rhs) -> bool { return lhs.start < rhs.start; };
+    int ls = lower_bound<Tour>(start_tour[id], func, start_key);
+    int rs = lower_bound<Tour>(start_tour[id], func, end_key);
+    if (ls == rs) return 0;
+    double ret = 0;
+    for (int i = ls; i < rs; ++i)
+        ret += start_tour[id][i].fee;
+    return ret / (rs - ls);
+}
+
+double DataBase::timeCount(int id, int ql, int qr) {
+    Tour start_key, end_key;
+    start_key.start = ql, end_key.start = qr;
+    auto func = [](const Tour &lhs, const Tour &rhs) -> bool { return lhs.start < rhs.start; };
+    int ls = lower_bound<Tour>(start_tour[id], func, start_key);
+    int rs = lower_bound<Tour>(start_tour[id], func, end_key);
+    if (ls == rs) return 0;
+    double ret = 0;
+    for (int i = ls; i < rs; ++i)
+        ret += start_tour[id][i].end - start_tour[id][i].start;
+    return ret / (rs - ls);
+}
+
 // advanced version of std::lower_bound
 //  vector + (*func) + key
 //  func is something like '<'
 //  return first w[x]>=key
 template <class T> int DataBase::lower_bound(const vector<T> &w, bool (*func)(const T &, const T &), T key) {
+    if (w.empty()) return 0;
     int l = 0, r = w.size() - 1;
     while (l < r) {
         auto mid = (l + r) >> 1;

@@ -13,6 +13,21 @@ class TimePlot : public xxxPlot {
   public:
     explicit TimePlot(const int, const int, DataBase *, QThread *);
     QWidget *main_widget;
+
+    void setupLayouts() override;
+    void setupConnects() override;
+    // plot map
+    //  using below plotxxxMap with another thread
+    void plotMap() override;
+
+  private:
+    const int WIDTH, HEIGHT;
+
+    // plot settings
+  private:
+    int day, start_hour, end_hour, step_min;
+
+  private:
     QChartView *plot_area;
     QComboBox *place_combo;
     // store grids chosen
@@ -26,21 +41,10 @@ class TimePlot : public xxxPlot {
     QPushButton *plot_button;
     //    QLineSeries *line;
     //    QChart *chart;
-    void setupLayouts() override;
-    void setupConnects() override;
-    // plot map
-    //  using below plotxxxMap with another thread
-    void plotMap() override;
     void plotSeriesMap();
     void plotPieMap();
+    // time + num
     void calcSeries(vector<pair<int, int>> &);
-
-  private:
-    const int WIDTH, HEIGHT;
-
-    // plot settings
-  private:
-    int day, start_hour, end_hour, step_min;
 };
 
 #endif // TIMEPLOT_H

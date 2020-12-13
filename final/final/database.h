@@ -19,6 +19,10 @@ class DataBase : public QObject {
     //  return number of tours during [start_time, end_time)
     int startCount(int, int, int);
     int endCount(int, int, int);
+    // fee average
+    double feeCount(int, int, int);
+    // time average (seconds)
+    double timeCount(int, int, int);
 
   public:
     // name like 201611xx
