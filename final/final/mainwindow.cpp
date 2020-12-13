@@ -2,15 +2,8 @@
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow) {
-    ui->setupUi(this);
+    : QMainWindow(parent) {
     db = new DataBase();
-}
-
-MainWindow::~MainWindow() {
-    //
-    delete ui;
 }
 
 void MainWindow::setWelcome() {

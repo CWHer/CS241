@@ -17,6 +17,7 @@
 #include <QProgressBar>
 #include <QPushButton>
 #include <QRegExp>
+#include <QSplineSeries>
 #include <QString>
 #include <QTabWidget>
 #include <QTextStream>

@@ -134,6 +134,7 @@ void TimePlot::setupLayouts() {
     //    chart->legend()->hide();
     //    chart->createDefaultAxes();
     plot_area = new QChartView();
+    plot_area->setRenderHint(QPainter::Antialiasing);
     plot_area->setMinimumSize(WIDTH, HEIGHT / 4 * 3);
     plot_area->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
@@ -168,7 +169,7 @@ void TimePlot::plotMap() {
         //        this->moveToThread(painter);
         //        db->moveToThread(painter);
         //        painter->start();
-        plotLineMap();
+        plotSeriesMap();
     } else {
         //        auto painter = new myThread();
         //        connect(painter, &myThread::funcStart, this, &TimePlot::plotPieMap);
@@ -198,8 +199,9 @@ void TimePlot::calcSeries(vector<pair<int, int>> &data_series) {
     }
 }
 
-void TimePlot::plotLineMap() {
-    auto series = new QLineSeries();
+void TimePlot::plotSeriesMap() {
+    //    auto series = new QLineSeries();
+    auto series = new QSplineSeries();
     vector<pair<int, int>> data_series;
     calcSeries(data_series);
     progress_bar->setValue(67);
@@ -220,7 +222,7 @@ void TimePlot::plotLineMap() {
     //    }
     auto chart = new QChart();
     chart->legend()->hide();
-    //    chart->createDefaultAxes();
+    chart->createDefaultAxes();
     //    chart->removeAllSeries();
     chart->addSeries(series);
     //    this->moveToThread(main_thread);

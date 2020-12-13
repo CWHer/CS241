@@ -31,7 +31,7 @@ class TimePlot : public xxxPlot {
     // plot map
     //  using below plotxxxMap with another thread
     void plotMap() override;
-    void plotLineMap();
+    void plotSeriesMap();
     void plotPieMap();
     void calcSeries(vector<pair<int, int>> &);
 

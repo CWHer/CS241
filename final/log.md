@@ -6,8 +6,8 @@
 - [x] 主界面简陋布局
 - [ ] 数据选择
 - [ ] 数据可视化
-- [ ] 线图/饼图
-- [ ] 插值
+- [x] 线图/饼图
+- [x] 插值
 - [ ] 地图绘制
 - [ ] 弹出dialog选择grid id
 - [ ] elective：thermal/direction
@@ -30,7 +30,7 @@
 | SpatialPlot   | 用于生成绘制空图案的widget                   | setupLayouts         |
 | TimePlot      | 绘制时间相关内容                             |                      |
 | InfoPlot      | 绘制其它重要信息                             |                      |
-|               |                                              |                      |
+| xxxPlot       | 上述三个绘图类的基类                         |                      |
 |               |                                              |                      |
 
 #### Ver 0.1
@@ -67,33 +67,17 @@
 
 #### Ver 0.3
 
-`todo`
-
 lambda表达式和函数指针真好用.jpg
 
 - [x] 处理数据，排序分类，时间转换
 - [x] 完成线图，暂时无法实现另一个线程运行，在setChart时会遇到段错误
 - [x] 完成饼图，同上
-- [ ] 插值绘制线图
+- [x] 插值绘制线图，QSplineSeries
 - [x] 使用一个虚基类xxxPlot重构了三个绘图类
 
-<img src="../images/ver0.3-series.png" style="zoom:40%;" />
+<img src="../images/ver0.3-series.png" style="zoom: 25%;" />
 
-<img src="../images/ver0.3-pie.png" style="zoom: 40%;" />
-
-#### Ver 0.31
-
-`todo`
-
-- [ ] 数据处理在导入完成后立即开始，并锁至处理完成
-- [ ] 绘图关联进度条，并使用另一个线程，添加图例注记，颜色调整
-- [ ] 程序结束后段错误......
-
-#### Ver 0.32
-
-`todo`
-
-- [ ] 增加一个可以选择`grid`的`Dialog`
+<img src="../images/ver0.3-pie.png" style="zoom: 25%;" />
 
 #### Ver 0.4
 
@@ -103,11 +87,22 @@ lambda表达式和函数指针真好用.jpg
 
 #### Ver 0.5
 
+修复之前的bug
+
+`todo`
+
+- [ ] 数据处理在导入完成后立即开始，并锁至处理完成
+- [ ] 绘图关联进度条，并使用另一个线程，添加图例注记，颜色调整
+- [ ] 增加一个可以选择`grid`的`Dialog`
+- [ ] 程序结束后段错误......
+
+#### Ver 0.6
+
 `todo`
 
 - [ ] 完成热力图
 
-#### Ver 0.6
+#### Ver 0.7
 
 `todo`
 

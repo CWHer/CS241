@@ -22,7 +22,6 @@ class MainWindow : public QMainWindow {
 
   public:
     MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
 
     void setWelcome();
 
@@ -33,7 +32,6 @@ class MainWindow : public QMainWindow {
     //  also load data
     WelcomeWidget *welcome;
     DataBase *db;
-    Ui::MainWindow *ui;
     QTabWidget *centralwidget;
     // main widget
     //  can be intialized by xxxPlot
