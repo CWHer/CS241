@@ -62,7 +62,7 @@ void DataBase::loadData() {
                 read_daily(line, cur_tour);
                 tours[i].push_back(std::move(cur_tour));
             }
-            emit setValue(++cnt * 100.0 / total);
+            emit setValue(++cnt * 90.0 / total);
         }
     }
     initData();
@@ -76,7 +76,8 @@ inline int DataBase::searchGridID(const Pos &pos) {
 }
 
 void DataBase::initData() {
-    for (const auto &day : tours)
+    int cnt = 0;
+    for (const auto &day : tours) {
         for (auto &ti : day) {
             auto id = searchGridID(ti.src);
             // src may be not in grid areas!!!
@@ -88,10 +89,15 @@ void DataBase::initData() {
             if (id < 0 || id >= GRID_NUM) continue;
             end_tour[id].push_back(ti);
         }
+        emit setValue(90.0 + 8.0 * ++cnt / DAY_NUM);
+    }
     for (auto &tours : start_tour)
         sort(tours.begin(), tours.end(), [](const Tour &lhs, const Tour &rhs) { return lhs.start < rhs.start; });
+    emit setValue(99);
+
     for (auto &tours : end_tour)
         sort(tours.begin(), tours.end(), [](const Tour &lhs, const Tour &rhs) { return lhs.end < rhs.end; });
+    emit setValue(100);
 }
 
 // [ql, qr)

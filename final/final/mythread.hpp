@@ -4,7 +4,7 @@
 #include "common.h"
 #include "utils.h"
 
-class myThread : public QThread {
+class MyThread : public QThread {
     Q_OBJECT
 
   public:

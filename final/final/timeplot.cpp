@@ -3,10 +3,12 @@
 TimePlot::TimePlot(const int w, const int h, DataBase *_db, QThread *_thread)
     : xxxPlot(_db, _thread)
     , WIDTH(w)
-    , HEIGHT(h) {}
+    , HEIGHT(h) {
+    selector = new GridSelector();
+}
 
 void TimePlot::setupLayouts() {
-    QFont font = QFont("consolas", 10);
+    QFont font("consolas", 10);
     main_widget = new QWidget();
     auto outer_layout = new QVBoxLayout(main_widget);
 
@@ -18,19 +20,11 @@ void TimePlot::setupLayouts() {
     auto spacer = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Preferred);
 
     //  place select
-    auto place_label = new QLabel();
-    place_label->setText("Place");
-    place_label->setFont(font);
-    place_label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    //    place_label->setMinimumWidth(20);
-    top_layout->addWidget(place_label);
-    place_combo = new QComboBox();
-    place_combo->setFont(font);
-    //**********************
-    // add a dialog to ask grid id
-    place_combo->addItem(QString("Chengdu"));
-    place_combo->addItem(QString("seperate areas"));
-    top_layout->addWidget(place_combo);
+    place_button = new QPushButton();
+    place_button->setText("Select grids");
+    place_button->setFont(font);
+    place_button->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    top_layout->addWidget(place_button);
     top_layout->addItem(spacer);
 
     //  date select
@@ -145,17 +139,12 @@ void TimePlot::setupLayouts() {
 void TimePlot::setupConnects() {
     // button -> plotMap
     connect(plot_button, &QPushButton::clicked, this, &TimePlot::plotMap);
+    connect(place_button, &QPushButton::clicked, selector, &GridSelector::selectGrid);
 }
 
 void TimePlot::plotMap() {
     // get settings
-
-    //********************
-    // todo: grid selection
-    grid_id.clear();
-    for (auto i = 0; i < GRID_NUM; ++i)
-        grid_id.push_back(i);
-    //********************
+    grid_id = selector->grid_id;
     QRegExp expr("11-(\\d+)");
     expr.indexIn(date_combo->currentText());
     day = expr.cap(1).toInt();

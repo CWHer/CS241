@@ -2,6 +2,7 @@
 #define TIMEPLOT_H
 
 #include "common.h"
+#include "gridselector.h"
 #include "mythread.hpp"
 #include "xxxplot.h"
 #include <QWidget>
@@ -29,7 +30,8 @@ class TimePlot : public xxxPlot {
 
   private:
     QChartView *plot_area;
-    QComboBox *place_combo;
+    QPushButton *place_button;
+    GridSelector *selector;
     // store grids chosen
     vector<int> grid_id;
     QComboBox *date_combo;

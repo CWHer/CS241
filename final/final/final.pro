@@ -11,6 +11,7 @@ CONFIG += c++11
 
 SOURCES += \
     database.cpp \
+    gridselector.cpp \
     infoplot.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
 HEADERS += \
     common.h \
     database.h \
+    gridselector.h \
     infoplot.h \
     mainwindow.h \
     mythread.hpp \
