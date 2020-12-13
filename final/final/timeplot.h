@@ -11,7 +11,7 @@
 class TimePlot : public xxxPlot {
     Q_OBJECT
   public:
-    explicit TimePlot(const int, const int);
+    explicit TimePlot(const int, const int, DataBase *, QThread *);
     QWidget *main_widget;
     QChartView *plot_area;
     QComboBox *place_combo;
@@ -24,6 +24,8 @@ class TimePlot : public xxxPlot {
     QComboBox *type_combo;
     QProgressBar *progress_bar;
     QPushButton *plot_button;
+    //    QLineSeries *line;
+    //    QChart *chart;
     void setupLayouts() override;
     void setupConnects() override;
     // plot map
@@ -31,6 +33,7 @@ class TimePlot : public xxxPlot {
     void plotMap() override;
     void plotLineMap();
     void plotPieMap();
+    void calcSeries(vector<pair<int, int>> &);
 
   private:
     const int WIDTH, HEIGHT;

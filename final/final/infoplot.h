@@ -7,7 +7,7 @@
 class InfoPlot : public xxxPlot {
     Q_OBJECT
   public:
-    explicit InfoPlot(const int, const int);
+    explicit InfoPlot(const int, const int, DataBase *, QThread *);
     QWidget *main_widget;
     QTreeWidget *info_filter;
     void setupLayouts() override;

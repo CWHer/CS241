@@ -71,9 +71,10 @@ void WelcomeWidget::loadData() {
     db->folder_path = folder_path;
     db->parseFolder();
     auto loader = new myThread();
-    connect(db, &DataBase::loadDone, this, &WelcomeWidget::loadDone);
-    connect(db, &DataBase::setValue, this, &WelcomeWidget::setBarValue);
     connect(loader, &myThread::funcStart, db, &DataBase::loadData);
+    connect(db, &DataBase::setValue, this, &WelcomeWidget::setBarValue);
+    connect(db, &DataBase::loadDone, this, &WelcomeWidget::loadDone);
+    connect(this, &WelcomeWidget::switchWindow, loader, &myThread::deleteLater);
     db->moveToThread(loader);
     loader->start();
 }

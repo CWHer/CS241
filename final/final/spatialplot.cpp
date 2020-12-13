@@ -1,7 +1,8 @@
 #include "spatialplot.h"
 
-SpatialPlot::SpatialPlot(const int w, const int h)
-    : WIDTH(w)
+SpatialPlot::SpatialPlot(const int w, const int h, DataBase *_db, QThread *_thread)
+    : xxxPlot(_db, _thread)
+    , WIDTH(w)
     , HEIGHT(h) {}
 
 void SpatialPlot::setupLayouts() {

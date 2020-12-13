@@ -13,6 +13,7 @@
 #include <QLineEdit>
 #include <QLineSeries>
 #include <QLocale>
+#include <QPieSeries>
 #include <QProgressBar>
 #include <QPushButton>
 #include <QRegExp>

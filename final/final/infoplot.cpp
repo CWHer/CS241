@@ -1,7 +1,8 @@
 #include "infoplot.h"
 
-InfoPlot::InfoPlot(const int w, const int h)
-    : WIDTH(w)
+InfoPlot::InfoPlot(const int w, const int h, DataBase *_db, QThread *_thread)
+    : xxxPlot(_db, _thread)
+    , WIDTH(w)
     , HEIGHT(h) {}
 
 void InfoPlot::setupLayouts() {

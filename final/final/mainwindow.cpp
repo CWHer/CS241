@@ -29,22 +29,19 @@ void MainWindow::setupLayouts() {
     // centralwidget begin
     centralwidget = new QTabWidget();
 
-    timeplot = new TimePlot(WIDTH, HEIGHT);
-    timeplot->db = db;
-    connect(this, &MainWindow::resetPlot, timeplot, &TimePlot::plotDone);
+    timeplot = new TimePlot(WIDTH, HEIGHT, db, QThread::currentThread());
+    connect(timeplot, &TimePlot::resetPlot, this, &MainWindow::resetPlot);
     timeplot->setupLayouts();
     timeplot->setupConnects();
     centralwidget->addTab(timeplot->main_widget, "Data-Time");
 
-    infoplot = new InfoPlot(WIDTH, HEIGHT);
-    infoplot->db = db;
-    connect(this, &MainWindow::resetPlot, infoplot, &InfoPlot::plotDone);
+    infoplot = new InfoPlot(WIDTH, HEIGHT, db, QThread::currentThread());
+    connect(infoplot, &InfoPlot::resetPlot, this, &MainWindow::resetPlot);
     infoplot->setupLayouts();
     centralwidget->addTab(infoplot->main_widget, "Infomation");
 
-    spatialplot = new SpatialPlot(WIDTH, HEIGHT);
-    spatialplot->db = db;
-    connect(this, &MainWindow::resetPlot, spatialplot, &SpatialPlot::plotDone);
+    spatialplot = new SpatialPlot(WIDTH, HEIGHT, db, QThread::currentThread());
+    connect(spatialplot, &SpatialPlot::resetPlot, this, &MainWindow::resetPlot);
     spatialplot->setupLayouts();
     centralwidget->addTab(spatialplot->main_widget, "SpatialMap");
 
@@ -67,7 +64,6 @@ void MainWindow::switchWindow() {
 };
 
 void MainWindow::resetPlot(xxxPlot *painter) {
-    db->moveToThread(QThread::currentThread());
-    painter->moveToThread(QThread::currentThread());
-    show();
+    //    db->moveToThread(QThread::currentThread());
+    //    painter->moveToThread(QThread::currentThread());
 }

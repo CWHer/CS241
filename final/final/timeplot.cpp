@@ -1,7 +1,8 @@
 #include "timeplot.h"
 
-TimePlot::TimePlot(const int w, const int h)
-    : WIDTH(w)
+TimePlot::TimePlot(const int w, const int h, DataBase *_db, QThread *_thread)
+    : xxxPlot(_db, _thread)
+    , WIDTH(w)
     , HEIGHT(h) {}
 
 void TimePlot::setupLayouts() {
@@ -86,6 +87,7 @@ void TimePlot::setupLayouts() {
     mid_layout->addWidget(step_label);
     step_combo = new QComboBox();
     step_combo->setFont(font);
+    step_combo->addItem(QString::number(10));
     for (auto i = 30; i <= 180; i += 30)
         step_combo->addItem(QString::number(i));
     mid_layout->addWidget(step_combo);
@@ -106,6 +108,7 @@ void TimePlot::setupLayouts() {
 
     //  progress bar
     progress_bar = new QProgressBar();
+    progress_bar->setRange(0, 100);
     progress_bar->setTextVisible(false);
     progress_bar->setMinimumWidth(WIDTH / 4);
     mid_layout->addWidget(progress_bar);
@@ -126,6 +129,10 @@ void TimePlot::setupLayouts() {
     // selection part end
 
     // plot area begin
+    //    line = new QLineSeries();
+    //    chart = new QChart();
+    //    chart->legend()->hide();
+    //    chart->createDefaultAxes();
     plot_area = new QChartView();
     plot_area->setMinimumSize(WIDTH, HEIGHT / 4 * 3);
     plot_area->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -141,10 +148,12 @@ void TimePlot::setupConnects() {
 
 void TimePlot::plotMap() {
     // get settings
-
+    progress_bar->setValue(33);
     //********************
     // todo: grid selection
-    grid_id.clear(), grid_id.push_back(0);
+    grid_id.clear();
+    for (auto i = 0; i < GRID_NUM; ++i)
+        grid_id.push_back(i);
     //********************
     QRegExp expr("11-(\\d+)");
     expr.indexIn(date_combo->currentText());
@@ -154,47 +163,103 @@ void TimePlot::plotMap() {
     step_min = step_combo->currentText().toInt();
     // using another thread
     if (type_combo->currentText() == "Line Chart") {
-        auto painter = new myThread();
-        connect(painter, &myThread::funcStart, this, &TimePlot::plotLineMap);
-        this->moveToThread(painter);
-        db->moveToThread(painter);
-        painter->start();
+        //        auto painter = new myThread();
+        //        connect(painter, &myThread::funcStart, this, &TimePlot::plotLineMap);
+        //        this->moveToThread(painter);
+        //        db->moveToThread(painter);
+        //        painter->start();
+        plotLineMap();
     } else {
-        auto painter = new myThread();
-        connect(painter, &myThread::funcStart, this, &TimePlot::plotPieMap);
-        this->moveToThread(painter);
-        db->moveToThread(painter);
-        painter->start();
+        //        auto painter = new myThread();
+        //        connect(painter, &myThread::funcStart, this, &TimePlot::plotPieMap);
+        //        this->moveToThread(painter);
+        //        db->moveToThread(painter);
+        //        painter->start();
+        plotPieMap();
     }
 }
 
-void TimePlot::plotLineMap() {
-    auto line = new QLineSeries();
+void TimePlot::calcSeries(vector<pair<int, int>> &data_series) {
+    // int -> 2 byte fix length string
+    auto num2str = [](const int &x) -> QString { return (x < 10 ? "0" : "") + QString::number(x); };
     for (auto i = start_hour * 60; i <= end_hour * 60; i += step_min) {
         // transform time to Unix time stamp
-        //  hh:mm
-        QString time_day = (i / 60 < 10 ? "0" : "") + QString::number(i / 60) + ":";
-        time_day += (i / 60 < 10 ? "0" : "") + QString::number(i % 60);
-        QString time_str = QString::number(day) + " Dec 2016 " + time_day;
-        QDateTime time_now = QLocale(QLocale::Chinese, QLocale::China).toDateTime(time_str, "dd MMM yyyy hh:mm");
+        //  hh:mm:ss
+        QString time_day = num2str(i / 60) + ":" + num2str(i % 60) + ":00";
+        QString time_str = "2016-11-" + num2str(day) + " " + time_day;
+        QDateTime time_now = QLocale(QLocale::Chinese, QLocale::China).toDateTime(time_str, "yyyy-MM-dd hh:mm:ss");
         time_now.setTimeSpec(Qt::UTC);
         auto start_time = time_now.toTime_t();
         auto end_time = start_time + step_min * 60;
         int num = 0;
         for (auto &id : grid_id)
             num += db->startCount(id, start_time, end_time);
-        line->append(i, num);
+        data_series.push_back(make_pair(i, num));
     }
+}
+
+void TimePlot::plotLineMap() {
+    auto series = new QLineSeries();
+    vector<pair<int, int>> data_series;
+    calcSeries(data_series);
+    progress_bar->setValue(67);
+    for (const auto &wi : data_series)
+        series->append(wi.first, wi.second);
+    // move to calcseries
+    //    auto num2str = [](const int &x) -> QString { return (x < 10 ? "0" : "") + QString::number(x); };
+    //    for (auto i = start_hour * 60; i <= end_hour * 60; i += step_min) {
+    //        // transform time to Unix time stamp
+    //        //  hh:mm:ss
+    //        QString time_day = num2str(i / 60) + ":" + num2str(i % 60) + ":00";
+    //        QString time_str = "2016-11-" + num2str(day) + " " + time_day;
+    //        QDateTime time_now = QLocale(QLocale::Chinese, QLocale::China).toDateTime(time_str, "yyyy-MM-dd
+    //        hh:mm:ss"); time_now.setTimeSpec(Qt::UTC); auto start_time = time_now.toTime_t(); auto end_time =
+    //        start_time + step_min * 60; int num = 0; for (auto &id : grid_id)
+    //            num += db->startCount(id, start_time, end_time);
+    //        series->append(i, num);
+    //    }
     auto chart = new QChart();
     chart->legend()->hide();
-    chart->addSeries(line);
-    chart->createDefaultAxes();
+    //    chart->createDefaultAxes();
+    //    chart->removeAllSeries();
+    chart->addSeries(series);
+    //    this->moveToThread(main_thread);
+    //    db->moveToThread(main_thread);
+    //    chart->moveToThread(main_thread);
+    progress_bar->setValue(100);
     plot_area->setChart(chart);
-    emit plotDone(this);
+    //    emit resetPlot(this);
 }
 
 void TimePlot::plotPieMap() {
-    // get settings
-
-    emit plotDone(this);
+    auto series = new QPieSeries();
+    vector<pair<int, int>> data_series;
+    calcSeries(data_series);
+    progress_bar->setValue(67);
+    //    const double R = 0x66, G = 0xcc, B = 0xff;
+    const double R = 0x00, G = 0x40, B = 0x80;
+    const double threshold = 255;
+    const double dR = threshold - R, dG = threshold - G, dB = threshold - B;
+    int mx = 0;
+    for (const auto &wi : data_series)
+        mx = std::max(mx, wi.second);
+    auto num2str = [](const int &x) -> QString { return (x < 10 ? "0" : "") + QString::number(x); };
+    for (const auto &wi : data_series) {
+        // hh:mm
+        QString time_day = QString::number(wi.first / 60) + ":" + num2str(wi.first % 60);
+        series->append(time_day, wi.second);
+        double pi = 1 - wi.second * 1.0 / mx;
+        QColor col(R + dR * pi, G + dG * pi, B + dB * pi);
+        series->slices().back()->setColor(col);
+    }
+    // do not display tags when too many data
+    const int visible_size = 24;
+    if (data_series.size() < visible_size) series->setLabelsVisible();
+    auto chart = new QChart();
+    chart->legend()->hide();
+    //    chart->createDefaultAxes();
+    chart->addSeries(series);
+    progress_bar->setValue(100);
+    plot_area->setChart(chart);
+    //    emit resetPlot(this);
 }

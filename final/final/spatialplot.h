@@ -8,7 +8,7 @@
 class SpatialPlot : public xxxPlot {
     Q_OBJECT
   public:
-    explicit SpatialPlot(const int, const int);
+    explicit SpatialPlot(const int, const int, DataBase *, QThread *);
     QVBoxLayout *plot_layout;
     QTreeWidget *data_filter;
     QProgressBar *bar;

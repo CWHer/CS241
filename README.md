@@ -19,7 +19,7 @@ codes for CS241 Principles and Practice of Problem Solving
 
 简易的四则运算表达式解析器
 
-<img src="images/expr.png" style="zoom: 33%;" />
+<img src="images/expr.png" style="zoom: 25%;" />
 
 ##### 2. assignment2
 
@@ -27,9 +27,9 @@ codes for CS241 Principles and Practice of Problem Solving
 
 ```T2,T3```：拉格朗日与牛顿插值
 
-<img src="images/h21.png" style="zoom:33%;" />
+<img src="images/h21.png" style="zoom: 25%;" />
 
-<img src="images/h22.png" style="zoom:33%;" />
+<img src="images/h22.png" style="zoom: 25%;" />
 
 ##### 3. assignment3
 
