@@ -82,6 +82,7 @@ void InfoPlot::setupConnects() {
 }
 
 void InfoPlot::plotMap() {
+    progress_bar->setValue(0);
     // get settings
     QString plot_type;
     for (int i = 0; i < info_filter->topLevelItemCount(); ++i)
@@ -95,7 +96,8 @@ void InfoPlot::plotMap() {
     interval = plot_type.indexOf("day") != -1 ? DAY : ALL;
     progress_bar->setValue(33);
 
-    // using another thread
+    // tend to use another thread to plot
+    //  however fast enough to only use main
     plotSeries();
 }
 

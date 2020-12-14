@@ -41,8 +41,6 @@ class TimePlot : public xxxPlot {
     QComboBox *type_combo;
     QProgressBar *progress_bar;
     QPushButton *plot_button;
-    //    QLineSeries *line;
-    //    QChart *chart;
     void plotSeriesMap();
     void plotPieMap();
     // time + num

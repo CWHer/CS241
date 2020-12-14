@@ -122,10 +122,6 @@ void TimePlot::setupLayouts() {
     // selection part end
 
     // plot area begin
-    //    line = new QLineSeries();
-    //    chart = new QChart();
-    //    chart->legend()->hide();
-    //    chart->createDefaultAxes();
     plot_area = new QChartView();
     plot_area->setRubberBand(QChartView::HorizontalRubberBand);
     plot_area->setRenderHint(QPainter::Antialiasing);
@@ -143,6 +139,7 @@ void TimePlot::setupConnects() {
 }
 
 void TimePlot::plotMap() {
+    progress_bar->setValue(0);
     // get settings
     grid_id = selector->grid_id;
     QRegExp expr("11-(\\d+)");
@@ -153,7 +150,8 @@ void TimePlot::plotMap() {
     step_min = step_combo->currentText().toInt();
     progress_bar->setValue(33);
 
-    // using another thread to plot
+    // tend to use another thread to plot
+    //  however fast enough to only use main
     if (type_combo->currentText() == "Line Chart") {
         //        auto painter = new myThread();
         //        connect(painter, &myThread::funcStart, this, &TimePlot::plotLineMap);
@@ -179,7 +177,7 @@ void TimePlot::calcSeries(vector<pair<int, int>> &data_series) {
         //  hh:mm:ss
         QString time_day = num2str(i / 60) + ":" + num2str(i % 60) + ":00";
         QString time_str = "2016-11-" + num2str(day) + " " + time_day;
-        QDateTime time_now = QLocale(QLocale::Chinese, QLocale::China).toDateTime(time_str, "yyyy-MM-dd hh:mm:ss");
+        QDateTime time_now = QLocale().toDateTime(time_str, "yyyy-MM-dd hh:mm:ss");
         time_now.setTimeSpec(Qt::UTC);
         auto start_time = time_now.toTime_t();
         auto end_time = start_time + step_min * 60;

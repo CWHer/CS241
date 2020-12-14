@@ -43,6 +43,6 @@ class MainWindow : public QMainWindow {
     void setupLayouts();
     void setupConnects();
     void switchWindow();
-    void resetPlot(xxxPlot *);
+    //    void resetPlot(xxxPlot *);
 };
 #endif // MAINWINDOW_H

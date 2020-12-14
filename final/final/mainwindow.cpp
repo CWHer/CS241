@@ -24,19 +24,19 @@ void MainWindow::setupLayouts() {
     centralwidget = new QTabWidget();
 
     timeplot = new TimePlot(WIDTH, HEIGHT, db, QThread::currentThread());
-    connect(timeplot, &TimePlot::resetPlot, this, &MainWindow::resetPlot);
+    //    connect(timeplot, &TimePlot::resetPlot, this, &MainWindow::resetPlot);
     timeplot->setupLayouts();
     timeplot->setupConnects();
     centralwidget->addTab(timeplot->main_widget, "Data-Time");
 
     infoplot = new InfoPlot(WIDTH, HEIGHT, db, QThread::currentThread());
-    connect(infoplot, &InfoPlot::resetPlot, this, &MainWindow::resetPlot);
+    //    connect(infoplot, &InfoPlot::resetPlot, this, &MainWindow::resetPlot);
     infoplot->setupLayouts();
     infoplot->setupConnects();
     centralwidget->addTab(infoplot->main_widget, "Infomation");
 
     spatialplot = new SpatialPlot(WIDTH, HEIGHT, db, QThread::currentThread());
-    connect(spatialplot, &SpatialPlot::resetPlot, this, &MainWindow::resetPlot);
+    //    connect(spatialplot, &SpatialPlot::resetPlot, this, &MainWindow::resetPlot);
     spatialplot->setupLayouts();
     centralwidget->addTab(spatialplot->main_widget, "SpatialMap");
 
@@ -58,7 +58,7 @@ void MainWindow::switchWindow() {
     show();
 };
 
-void MainWindow::resetPlot(xxxPlot *painter) {
-    //    db->moveToThread(QThread::currentThread());
-    //    painter->moveToThread(QThread::currentThread());
-}
+// void MainWindow::resetPlot(xxxPlot *painter) {
+//    //    db->moveToThread(QThread::currentThread());
+//    //    painter->moveToThread(QThread::currentThread());
+//}
