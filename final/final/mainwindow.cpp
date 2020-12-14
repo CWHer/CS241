@@ -8,6 +8,8 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::setWelcome() {
     welcome = new WelcomeWidget();
     welcome->db = db;
+    welcome->setupLayouts();
+    welcome->setupConnects();
     welcome->show();
     connect(welcome, &WelcomeWidget::switchWindow, this, &MainWindow::switchWindow);
 }

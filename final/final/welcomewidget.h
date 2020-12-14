@@ -10,18 +10,18 @@ class WelcomeWidget : public QWidget {
     Q_OBJECT
   public:
     explicit WelcomeWidget(QWidget *parent = nullptr);
-    void getPath();
-    void setBarValue(double);
+    void setupLayouts();
+    void setupConnects();
     QString folder_path;
     DataBase *db;
 
   private:
     static const auto WIDTH = 400;
     static const auto HEIGHT = 600;
-    QPushButton *selectfolder;
-    QProgressBar *loadbar;
-    void setupLayouts();
-    void setupConnects();
+    QPushButton *select_button, *load_button;
+    QProgressBar *progress_bar;
+    void getPath();
+    void setBarValue(double);
     void loadData();
     void loadDone();
 

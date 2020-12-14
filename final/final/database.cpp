@@ -44,6 +44,7 @@ void DataBase::parseFolder() {
 
 // load one day data
 void DataBase::loadData() {
+    int cnt = 0;
     for (auto i = 0; i < DAY_NUM; ++i) {
         for (const auto &abs_path : file_info[i]) {
             QFile file(abs_path);

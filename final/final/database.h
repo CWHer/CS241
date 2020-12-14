@@ -46,7 +46,8 @@ class DataBase : public QObject {
     int searchGridID(const Pos &);
     // std::function<bool(const T &, const T &)> func
     template <class T> int lower_bound(const vector<T> &, bool (*func)(const T &, const T &), T);
-    int total, cnt;
+    // file number
+    int total;
 
   signals:
     void setValue(double value);
