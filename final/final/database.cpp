@@ -34,7 +34,7 @@ void DataBase::parseFolder() {
                 }
             }
         } else
-            file_info[date].push_back(abs_path), ++total;
+            file_info[date].push_back(abs_path), ++total_file;
     }
     sort(lng.begin(), lng.end());
     lng.resize(std::unique(lng.begin(), lng.end()) - lng.begin());
@@ -63,7 +63,7 @@ void DataBase::loadData() {
                 read_daily(line, cur_tour);
                 tours[i].push_back(std::move(cur_tour));
             }
-            emit setValue(++cnt * 90.0 / total);
+            emit setValue(++cnt * 90.0 / total_file);
         }
     }
     initData();
@@ -94,6 +94,16 @@ void DataBase::initData() {
     }
     for (auto &tours : start_tour)
         sort(tours.begin(), tours.end(), [](const Tour &lhs, const Tour &rhs) { return lhs.start < rhs.start; });
+    // calculate prefix sum
+    for (int k = 0; k < GRID_NUM; ++k) {
+        int total_num = start_tour[k].size() + 1;
+        time_sum[k].resize(total_num);
+        fee_sum[k].resize(total_num);
+        for (auto i = 1; i < total_num; ++i) {
+            time_sum[k][i] = time_sum[k][i - 1] + start_tour[k][i - 1].end - start_tour[k][i - 1].start;
+            fee_sum[k][i] = fee_sum[k][i - 1] + start_tour[k][i - 1].fee;
+        }
+    }
     emit setValue(99);
 
     for (auto &tours : end_tour)
@@ -127,10 +137,7 @@ double DataBase::feeCount(int id, int ql, int qr) {
     int ls = lower_bound<Tour>(start_tour[id], func, start_key);
     int rs = lower_bound<Tour>(start_tour[id], func, end_key);
     if (ls == rs) return 0;
-    double ret = 0;
-    for (int i = ls; i < rs; ++i)
-        ret += start_tour[id][i].fee;
-    return ret / (rs - ls);
+    return (fee_sum[id][rs] - fee_sum[id][ls]) / (rs - ls);
 }
 
 double DataBase::timeCount(int id, int ql, int qr) {
@@ -140,10 +147,7 @@ double DataBase::timeCount(int id, int ql, int qr) {
     int ls = lower_bound<Tour>(start_tour[id], func, start_key);
     int rs = lower_bound<Tour>(start_tour[id], func, end_key);
     if (ls == rs) return 0;
-    double ret = 0;
-    for (int i = ls; i < rs; ++i)
-        ret += start_tour[id][i].end - start_tour[id][i].start;
-    return ret / (rs - ls);
+    return (time_sum[id][rs] - time_sum[id][ls]) / (rs - ls);
 }
 
 // advanced version of std::lower_bound

@@ -39,6 +39,10 @@ class DataBase : public QObject {
     // !below sorted by start time
     // start tour in each grid
     vector<Tour> start_tour[GRID_NUM];
+    // prefix sum
+    vector<double> time_sum[GRID_NUM];
+    vector<double> fee_sum[GRID_NUM];
+    // !below sorted by end time
     // end tour in each grid
     vector<Tour> end_tour[GRID_NUM];
 
@@ -47,7 +51,7 @@ class DataBase : public QObject {
     // std::function<bool(const T &, const T &)> func
     template <class T> int lower_bound(const vector<T> &, bool (*func)(const T &, const T &), T);
     // file number
-    int total;
+    int total_file;
 
   signals:
     void setValue(double value);

@@ -68,6 +68,7 @@ void InfoPlot::setupLayouts() {
 
     // right part begin
     plot_area = new QChartView();
+    plot_area->setRubberBand(QChartView::HorizontalRubberBand);
     plot_area->setRenderHint(QPainter::Antialiasing);
     plot_area->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     // right part end
@@ -84,8 +85,11 @@ void InfoPlot::plotMap() {
     // get settings
     QString plot_type;
     for (int i = 0; i < info_filter->topLevelItemCount(); ++i)
-        if (info_filter->topLevelItem(i)->checkState(0) == Qt::Checked)
+        if (info_filter->topLevelItem(i)->checkState(0) == Qt::Checked) {
             plot_type = info_filter->topLevelItem(i)->text(0);
+            break;
+        }
+
     if (plot_type.isEmpty()) return;
     info = plot_type.indexOf("time") != -1 ? TIME : FEE;
     interval = plot_type.indexOf("day") != -1 ? DAY : ALL;
@@ -104,6 +108,7 @@ void InfoPlot::plotSeries() {
     for (const auto &wi : data_series)
         series->append(wi.first, wi.second);
     auto chart = new QChart();
+    chart->setAnimationDuration(QChart::SeriesAnimations);
     chart->legend()->hide();
     chart->createDefaultAxes();
     chart->addSeries(series);

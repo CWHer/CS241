@@ -17,7 +17,6 @@ void TimePlot::setupLayouts() {
 
     // top begin
     auto top_layout = new QHBoxLayout();
-    auto spacer = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Preferred);
 
     //  place select
     place_button = new QPushButton();
@@ -25,7 +24,7 @@ void TimePlot::setupLayouts() {
     place_button->setFont(font);
     place_button->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     top_layout->addWidget(place_button);
-    top_layout->addItem(spacer);
+    top_layout->addItem(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Preferred));
 
     //  date select
     auto date_label = new QLabel();
@@ -39,7 +38,7 @@ void TimePlot::setupLayouts() {
     for (auto i = 1; i <= DAY_NUM; ++i)
         date_combo->addItem("11-" + QString::number(i));
     top_layout->addWidget(date_combo);
-    top_layout->addItem(spacer);
+    top_layout->addItem(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Preferred));
 
     //  start time select
     auto start_time_label = new QLabel();
@@ -52,7 +51,7 @@ void TimePlot::setupLayouts() {
     for (auto i = 0; i < 23; ++i)
         start_combo->addItem(QString::number(i));
     top_layout->addWidget(start_combo);
-    top_layout->addItem(spacer);
+    top_layout->addItem(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Preferred));
 
     //  end time select
     auto end_time_label = new QLabel();
@@ -65,7 +64,7 @@ void TimePlot::setupLayouts() {
     for (auto i = 1; i <= 24; ++i)
         end_combo->addItem(QString::number(i));
     top_layout->addWidget(end_combo);
-    top_layout->addItem(spacer);
+    top_layout->addItem(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Preferred));
 
     selection_part->addLayout(top_layout);
     // top end
@@ -85,7 +84,7 @@ void TimePlot::setupLayouts() {
     for (auto i = 30; i <= 180; i += 30)
         step_combo->addItem(QString::number(i));
     mid_layout->addWidget(step_combo);
-    mid_layout->addItem(spacer);
+    mid_layout->addItem(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Preferred));
 
     //  type select
     auto type_label = new QLabel();
@@ -98,7 +97,7 @@ void TimePlot::setupLayouts() {
     type_combo->addItem("Line Chart");
     type_combo->addItem("Pie Chart");
     mid_layout->addWidget(type_combo);
-    mid_layout->addItem(spacer);
+    mid_layout->addItem(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Preferred));
 
     //  progress bar
     progress_bar = new QProgressBar();
@@ -128,6 +127,7 @@ void TimePlot::setupLayouts() {
     //    chart->legend()->hide();
     //    chart->createDefaultAxes();
     plot_area = new QChartView();
+    plot_area->setRubberBand(QChartView::HorizontalRubberBand);
     plot_area->setRenderHint(QPainter::Antialiasing);
     plot_area->setMinimumSize(WIDTH, HEIGHT / 4 * 3);
     plot_area->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -199,6 +199,7 @@ void TimePlot::plotSeriesMap() {
     for (const auto &wi : data_series)
         series->append(wi.first, wi.second);
     auto chart = new QChart();
+    chart->setAnimationDuration(QChart::SeriesAnimations);
     chart->legend()->hide();
     chart->createDefaultAxes();
     //    chart->removeAllSeries();
@@ -236,6 +237,7 @@ void TimePlot::plotPieMap() {
     const int visible_size = 24;
     if (data_series.size() < visible_size) series->setLabelsVisible();
     auto chart = new QChart();
+    chart->setAnimationDuration(QChart::SeriesAnimations);
     chart->legend()->hide();
     //    chart->createDefaultAxes();
     chart->addSeries(series);

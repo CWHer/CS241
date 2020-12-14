@@ -1,8 +1,5 @@
 #include "welcomewidget.h"
 
-WelcomeWidget::WelcomeWidget(QWidget *parent)
-    : QWidget(parent) {}
-
 // ***********************
 // todo: add background img and beautify
 void WelcomeWidget::setupLayouts() {
@@ -11,18 +8,17 @@ void WelcomeWidget::setupLayouts() {
     this->setWindowTitle("see it!");
     this->setFont(font);
     QVBoxLayout *outerlayout = new QVBoxLayout(this);
-    auto spacer = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     // top
     QHBoxLayout *top_layout = new QHBoxLayout();
-    top_layout->addItem(spacer);
+    top_layout->addItem(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Expanding));
     QLabel *toplabel = new QLabel();
     toplabel->setText("visualize taxi data\n select data folder and begin");
     toplabel->setMinimumWidth(WIDTH);
     toplabel->setMinimumHeight(HEIGHT / 3);
     toplabel->setFont(font);
     top_layout->addWidget(toplabel);
-    top_layout->addItem(spacer);
+    top_layout->addItem(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Expanding));
     outerlayout->addLayout(top_layout);
 
     // mid
@@ -41,7 +37,7 @@ void WelcomeWidget::setupLayouts() {
 
     // bottom
     QHBoxLayout *bottom_layout = new QHBoxLayout();
-    bottom_layout->addItem(spacer);
+    bottom_layout->addItem(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Expanding));
 
     select_button = new QPushButton();
     select_button->setText("Select");
@@ -49,7 +45,7 @@ void WelcomeWidget::setupLayouts() {
     select_button->setMinimumHeight(HEIGHT / 6);
     select_button->setFont(font);
     bottom_layout->addWidget(select_button);
-    bottom_layout->addItem(spacer);
+    bottom_layout->addItem(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Expanding));
 
     load_button = new QPushButton();
     load_button->setText("Load");
@@ -58,7 +54,7 @@ void WelcomeWidget::setupLayouts() {
     load_button->setFont(font);
     bottom_layout->addWidget(load_button);
 
-    bottom_layout->addItem(spacer);
+    bottom_layout->addItem(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Expanding));
     outerlayout->addLayout(bottom_layout);
 }
 
@@ -69,13 +65,12 @@ void WelcomeWidget::setupConnects() {
 
 void WelcomeWidget::getPath() {
     // get folder paht and store in folder_path
-    folder_path = QFileDialog::getExistingDirectory();
+    db->folder_path = QFileDialog::getExistingDirectory();
 }
 
 // load data to database
 //  using another thread
 void WelcomeWidget::loadData() {
-    db->folder_path = folder_path;
     db->parseFolder();
     auto loader = new MyThread();
     connect(loader, &MyThread::funcStart, db, &DataBase::loadData);

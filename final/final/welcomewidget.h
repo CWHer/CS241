@@ -9,10 +9,8 @@
 class WelcomeWidget : public QWidget {
     Q_OBJECT
   public:
-    explicit WelcomeWidget(QWidget *parent = nullptr);
     void setupLayouts();
     void setupConnects();
-    QString folder_path;
     DataBase *db;
 
   private:
