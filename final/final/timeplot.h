@@ -43,7 +43,7 @@ class TimePlot : public xxxPlot {
     void plotSeriesMap();
     void plotPieMap();
     // time(Msec) + num
-    void calcSeries(vector<pair<int, int>> &);
+    void calcSeries(vector<pair<long long, int>> &);
 };
 
 #endif // TIMEPLOT_H

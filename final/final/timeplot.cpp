@@ -151,7 +151,7 @@ void TimePlot::plotMap() {
     }
 }
 
-void TimePlot::calcSeries(vector<pair<int, int>> &data_series) {
+void TimePlot::calcSeries(vector<pair<long long, int>> &data_series) {
     for (auto i = start_datetime.toSecsSinceEpoch(); i + step_min <= end_datetime.toSecsSinceEpoch();
          i += step_min * 60) {
         int num = 0;
@@ -162,30 +162,59 @@ void TimePlot::calcSeries(vector<pair<int, int>> &data_series) {
 }
 
 void TimePlot::plotSeriesMap() {
+    QFont font("consolas", 10);
     //    auto series = new QLineSeries();
     auto series = new QSplineSeries();
-    vector<pair<int, int>> data_series;
+    int max_value = 0;
+    vector<pair<long long, int>> data_series;
     calcSeries(data_series);
     progress_bar->setValue(67);
-    for (const auto &wi : data_series)
+    for (const auto &wi : data_series) {
         series->append(wi.first, wi.second);
+        max_value = std::max(max_value, wi.second);
+    }
+
     auto chart = new QChart();
     chart->setAnimationDuration(QChart::SeriesAnimations);
     chart->legend()->hide();
-    chart->createDefaultAxes();
-    //    chart->removeAllSeries();
+    //    chart->setTitle("Number of Orders");
+    chart->setFont(font);
+
+    // x_axis
+    auto x_axis = new QDateTimeAxis();
+    x_axis->setTickCount(10);
+    x_axis->setFormat("dd h:mm ");
+    x_axis->setTitleText("time");
+    x_axis->setGridLineVisible(true);
+    x_axis->setLabelsAngle(-45);
+    x_axis->setLabelsFont(font);
+    x_axis->setLineVisible(true);
+    x_axis->setRange(start_datetime, end_datetime);
+    chart->addAxis(x_axis, Qt::AlignBottom);
+    series->attachAxis(x_axis);
+
+    // y_axis
+    auto y_axis = new QValueAxis();
+    y_axis->setLabelFormat("%i");
+    y_axis->setTitleText("order number");
+    y_axis->setRange(0, max_value);
+    y_axis->setLabelsFont(font);
+    chart->addAxis(y_axis, Qt::AlignLeft);
+
     chart->addSeries(series);
+    plot_area->setChart(chart);
+
     //    this->moveToThread(main_thread);
     //    db->moveToThread(main_thread);
     //    chart->moveToThread(main_thread);
     progress_bar->setValue(100);
-    plot_area->setChart(chart);
     //    emit resetPlot(this);
 }
 
 void TimePlot::plotPieMap() {
+    QFont font("consolas", 10);
     auto series = new QPieSeries();
-    vector<pair<int, int>> data_series;
+    vector<pair<long long, int>> data_series;
     calcSeries(data_series);
     progress_bar->setValue(67);
     //    const double R = 0x66, G = 0xcc, B = 0xff;
@@ -195,11 +224,11 @@ void TimePlot::plotPieMap() {
     int mx = 0;
     for (const auto &wi : data_series)
         mx = std::max(mx, wi.second);
-    auto num2str = [](const int &x) -> QString { return (x < 10 ? "0" : "") + QString::number(x); };
     for (const auto &wi : data_series) {
-        // hh:mm
-        QString time_day = QString::number(wi.first / 60) + ":" + num2str(wi.first % 60);
-        series->append(time_day, wi.second);
+        QDateTime date;
+        date.setMSecsSinceEpoch(wi.first);
+        QString time_str = date.toString("dd hh:mm");
+        series->append(time_str, wi.second);
         double pi = 1 - wi.second * 1.0 / mx;
         QColor col(R + dR * pi, G + dG * pi, B + dB * pi);
         series->slices().back()->setColor(col);
@@ -207,12 +236,15 @@ void TimePlot::plotPieMap() {
     // do not display tags when too many data
     const int visible_size = 24;
     if (data_series.size() < visible_size) series->setLabelsVisible();
+
     auto chart = new QChart();
     chart->setAnimationDuration(QChart::SeriesAnimations);
     chart->legend()->hide();
-    //    chart->createDefaultAxes();
+    //    chart->setTitle("Number of Orders");
+    chart->setFont(font);
     chart->addSeries(series);
-    progress_bar->setValue(100);
     plot_area->setChart(chart);
+
+    progress_bar->setValue(100);
     //    emit resetPlot(this);
 }

@@ -27,7 +27,7 @@ void MainWindow::setupLayouts() {
     //    connect(timeplot, &TimePlot::resetPlot, this, &MainWindow::resetPlot);
     timeplot->setupLayouts();
     timeplot->setupConnects();
-    centralwidget->addTab(timeplot->main_widget, "Data-Time");
+    centralwidget->addTab(timeplot->main_widget, "Order-Time");
 
     infoplot = new InfoPlot(WIDTH, HEIGHT, db, QThread::currentThread());
     //    connect(infoplot, &InfoPlot::resetPlot, this, &MainWindow::resetPlot);

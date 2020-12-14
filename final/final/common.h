@@ -5,6 +5,7 @@
 #include <QCheckBox>
 #include <QComboBox>
 #include <QDateTime>
+#include <QDateTimeAxis>
 #include <QDateTimeEdit>
 #include <QDialog>
 #include <QDir>
@@ -27,6 +28,7 @@
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 #include <QVBoxLayout>
+#include <QValueAxis>
 #include <memory>
 #include <utility>
 #include <vector>
