@@ -125,22 +125,18 @@ void InfoPlot::calcSeries(vector<pair<int, double>> &series) {
         for (int i = 0; i < 24 * 60; i += step_min)
             series[i / step_min].first = i;
     }
-    auto num2str = [](const int &x) -> QString { return (x < 10 ? "0" : "") + QString::number(x); };
     for (auto day = 1; day <= DAY_NUM; ++day) {
         for (auto i = 0; i + step_min < 24 * 60; i += step_min) {
-            QString time_day = num2str(i / 60) + ":" + num2str(i % 60) + ":00";
-            QString time_str = "2016-11-" + num2str(day) + " " + time_day;
-            QDateTime time_now = QLocale(QLocale::Chinese, QLocale::China).toDateTime(time_str, "yyyy-MM-dd hh:mm:ss");
-            time_now.setTimeSpec(Qt::UTC);
-            auto start_time = time_now.toTime_t();
+            QDateTime time_now(QDate(2016, 11, day), QTime(i / 60, i % 60));
+            auto start_time = time_now.toSecsSinceEpoch();
             auto end_time = start_time + step_min * 60;
             double num = 0;
-            for (auto i = 0; i < GRID_NUM; ++i)
-                num += info == FEE ? db->feeCount(i, start_time, end_time) : db->timeCount(i, start_time, end_time);
+            for (auto k = 0; k < GRID_NUM; ++k)
+                num += info == FEE ? db->feeCount(k, start_time, end_time) : db->timeCount(k, start_time, end_time);
             if (interval == DAY)
                 series[i / step_min].second += num;
             else
-                series.push_back(make_pair(i + 24 * 60 * day, num));
+                series.push_back(make_pair(time_now.toMSecsSinceEpoch(), num));
         }
     }
     if (interval == DAY)

@@ -97,7 +97,7 @@ lambda表达式和函数指针真好用.jpg
 - [x] 添加了`SeriesAnimations`绘图动画，~~但似乎太快了...~~
 - [x] 添加了`RubberBand`，支持鼠标缩放来避免过于密集
 - [ ] 添加图例注记，颜色调整
-- [ ] 使用QDateTimeEdit，修复时间转换的bug，~~大家都喜欢晚上开车.jpg~~
+- [x] 使用QDateTimeEdit，修复时间转换的bug，~~大家都喜欢晚上开车.jpg~~
 - [x] 增加一个可以选择`grid`的`Dialog`
 - [ ] 给上述`Dialog`添加背景图片
 - [x] 程序结束后段错误......由于不同地方用了同一个spacer的指针....

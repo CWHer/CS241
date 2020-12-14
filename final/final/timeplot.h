@@ -26,7 +26,8 @@ class TimePlot : public xxxPlot {
 
     // plot settings
   private:
-    int day, start_hour, end_hour, step_min;
+    QDateTime start_datetime, end_datetime;
+    int step_min;
 
   private:
     QChartView *plot_area;
@@ -34,16 +35,14 @@ class TimePlot : public xxxPlot {
     GridSelector *selector;
     // store grids chosen
     vector<int> grid_id;
-    QComboBox *date_combo;
-    QComboBox *start_combo;
-    QComboBox *end_combo;
+    QDateTimeEdit *start_edit, *end_edit;
     QComboBox *step_combo;
     QComboBox *type_combo;
     QProgressBar *progress_bar;
     QPushButton *plot_button;
     void plotSeriesMap();
     void plotPieMap();
-    // time + num
+    // time(Msec) + num
     void calcSeries(vector<pair<int, int>> &);
 };
 

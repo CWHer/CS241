@@ -11,6 +11,7 @@ void TimePlot::setupLayouts() {
     QFont font("consolas", 10);
     main_widget = new QWidget();
     auto outer_layout = new QVBoxLayout(main_widget);
+    QDateTime default_date(QDate(2016, 11, 1), QTime(0, 0));
 
     // selection part begin
     auto selection_part = new QVBoxLayout();
@@ -26,31 +27,16 @@ void TimePlot::setupLayouts() {
     top_layout->addWidget(place_button);
     top_layout->addItem(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Preferred));
 
-    //  date select
-    auto date_label = new QLabel();
-    date_label->setText("Date");
-    date_label->setFont(font);
-    date_label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    //    date_label->setMinimumWidth(
-    top_layout->addWidget(date_label);
-    date_combo = new QComboBox();
-    date_combo->setFont(font);
-    for (auto i = 1; i <= DAY_NUM; ++i)
-        date_combo->addItem("11-" + QString::number(i));
-    top_layout->addWidget(date_combo);
-    top_layout->addItem(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Preferred));
-
     //  start time select
     auto start_time_label = new QLabel();
     start_time_label->setText("Start Time");
     start_time_label->setFont(font);
     start_time_label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     top_layout->addWidget(start_time_label);
-    start_combo = new QComboBox();
-    start_combo->setFont(font);
-    for (auto i = 0; i < 23; ++i)
-        start_combo->addItem(QString::number(i));
-    top_layout->addWidget(start_combo);
+    start_edit = new QDateTimeEdit();
+    start_edit->setFont(font);
+    start_edit->setDateTime(default_date);
+    top_layout->addWidget(start_edit);
     top_layout->addItem(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Preferred));
 
     //  end time select
@@ -59,11 +45,10 @@ void TimePlot::setupLayouts() {
     end_time_label->setFont(font);
     end_time_label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     top_layout->addWidget(end_time_label);
-    end_combo = new QComboBox();
-    end_combo->setFont(font);
-    for (auto i = 1; i <= 24; ++i)
-        end_combo->addItem(QString::number(i));
-    top_layout->addWidget(end_combo);
+    end_edit = new QDateTimeEdit();
+    end_edit->setFont(font);
+    end_edit->setDateTime(default_date);
+    top_layout->addWidget(end_edit);
     top_layout->addItem(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Preferred));
 
     selection_part->addLayout(top_layout);
@@ -142,11 +127,8 @@ void TimePlot::plotMap() {
     progress_bar->setValue(0);
     // get settings
     grid_id = selector->grid_id;
-    QRegExp expr("11-(\\d+)");
-    expr.indexIn(date_combo->currentText());
-    day = expr.cap(1).toInt();
-    start_hour = start_combo->currentText().toInt();
-    end_hour = end_combo->currentText().toInt();
+    start_datetime = start_edit->dateTime();
+    end_datetime = end_edit->dateTime();
     step_min = step_combo->currentText().toInt();
     progress_bar->setValue(33);
 
@@ -170,21 +152,12 @@ void TimePlot::plotMap() {
 }
 
 void TimePlot::calcSeries(vector<pair<int, int>> &data_series) {
-    // int -> 2 byte fix length string
-    auto num2str = [](const int &x) -> QString { return (x < 10 ? "0" : "") + QString::number(x); };
-    for (auto i = start_hour * 60; i + step_min <= end_hour * 60; i += step_min) {
-        // transform time to Unix time stamp
-        //  hh:mm:ss
-        QString time_day = num2str(i / 60) + ":" + num2str(i % 60) + ":00";
-        QString time_str = "2016-11-" + num2str(day) + " " + time_day;
-        QDateTime time_now = QLocale().toDateTime(time_str, "yyyy-MM-dd hh:mm:ss");
-        time_now.setTimeSpec(Qt::UTC);
-        auto start_time = time_now.toTime_t();
-        auto end_time = start_time + step_min * 60;
+    for (auto i = start_datetime.toSecsSinceEpoch(); i + step_min <= end_datetime.toSecsSinceEpoch();
+         i += step_min * 60) {
         int num = 0;
         for (auto &id : grid_id)
-            num += db->startCount(id, start_time, end_time);
-        data_series.push_back(make_pair(i, num));
+            num += db->startCount(id, i, i + step_min * 60);
+        data_series.push_back(make_pair(i * 1000, num));
     }
 }
 

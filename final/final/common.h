@@ -5,6 +5,7 @@
 #include <QCheckBox>
 #include <QComboBox>
 #include <QDateTime>
+#include <QDateTimeEdit>
 #include <QDialog>
 #include <QDir>
 #include <QErrorMessage>

@@ -18,7 +18,7 @@ class InfoPlot : public xxxPlot {
     QProgressBar *progress_bar;
     QPushButton *apply_button;
     QChartView *plot_area;
-    // time + num
+    // time(Msec) + num
     void calcSeries(vector<pair<int, double>> &);
     void plotSeries();
 
