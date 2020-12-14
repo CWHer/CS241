@@ -19,8 +19,10 @@ class InfoPlot : public xxxPlot {
     QPushButton *apply_button;
     QChartView *plot_area;
     // time(Msec) + num
-    void calcSeries(vector<pair<int, double>> &);
+    void calcSeries(vector<pair<long long, double>> &);
+    void calcArea(vector<pair<long long, pair<double, double>>> &);
     void plotSeries();
+    void plotArea();
 
   private:
     const int WIDTH, HEIGHT;

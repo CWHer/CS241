@@ -40,8 +40,8 @@ class TimePlot : public xxxPlot {
     QComboBox *type_combo;
     QProgressBar *progress_bar;
     QPushButton *plot_button;
-    void plotSeriesMap();
-    void plotPieMap();
+    void plotSeries();
+    void plotPie();
     // time(Msec) + num
     void calcSeries(vector<pair<long long, int>> &);
 };

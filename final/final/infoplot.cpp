@@ -102,28 +102,62 @@ void InfoPlot::plotMap() {
 }
 
 void InfoPlot::plotSeries() {
+    QFont font("consolas", 10);
     auto series = new QSplineSeries();
-    vector<pair<int, double>> data_series;
+    vector<pair<long long, double>> data_series;
     calcSeries(data_series);
     progress_bar->setValue(90);
-
-    for (const auto &wi : data_series)
+    double max_value = 0;
+    for (const auto &wi : data_series) {
         series->append(wi.first, wi.second);
+        max_value = std::max(max_value, wi.second);
+    }
+
     auto chart = new QChart();
     chart->setAnimationDuration(QChart::SeriesAnimations);
     chart->legend()->hide();
-    chart->createDefaultAxes();
+    //    chart->setTitle("Number of Orders");
+    chart->setFont(font);
+
+    // x_axis
+    auto x_axis = new QDateTimeAxis();
+    x_axis->setTickCount(10);
+
+    if (interval == DAY) {
+        x_axis->setFormat("hh:mm");
+        x_axis->setRange(QDateTime(QDate(2016, 11, 1), QTime(0, 0)), QDateTime(QDate(2016, 11, 2), QTime(0, 0)));
+    } else {
+        x_axis->setFormat("d hh:mm");
+        x_axis->setRange(QDateTime(QDate(2016, 11, 1), QTime(0, 0)), QDateTime(QDate(2016, 11, 16), QTime(0, 0)));
+    }
+    x_axis->setTitleText("time");
+    x_axis->setGridLineVisible(true);
+    x_axis->setLabelsAngle(-45);
+    x_axis->setLabelsFont(font);
+    x_axis->setLineVisible(true);
+
+    chart->addAxis(x_axis, Qt::AlignBottom);
+    series->attachAxis(x_axis);
+
+    // y_axis
+    auto y_axis = new QValueAxis();
+    y_axis->setLabelFormat("%.2f");
+    y_axis->setTitleText(info == FEE ? "average fee (RMB)" : "average time (min)");
+    y_axis->setRange(0, max_value);
+    y_axis->setLabelsFont(font);
+    chart->addAxis(y_axis, Qt::AlignLeft);
+
     chart->addSeries(series);
-    progress_bar->setValue(100);
     plot_area->setChart(chart);
+    progress_bar->setValue(100);
 }
 
-void InfoPlot::calcSeries(vector<pair<int, double>> &series) {
+void InfoPlot::calcSeries(vector<pair<long long, double>> &series) {
     const int step_min = 20;
     if (interval == DAY) {
         series.resize(24 * 60 / step_min);
-        for (int i = 0; i < 24 * 60; i += step_min)
-            series[i / step_min].first = i;
+        for (auto i = 0; i < 24 * 60; i += step_min)
+            series[i / step_min].first = i * 60 * 1000;
     }
     for (auto day = 1; day <= DAY_NUM; ++day) {
         for (auto i = 0; i + step_min < 24 * 60; i += step_min) {
@@ -133,13 +167,18 @@ void InfoPlot::calcSeries(vector<pair<int, double>> &series) {
             double num = 0;
             for (auto k = 0; k < GRID_NUM; ++k)
                 num += info == FEE ? db->feeCount(k, start_time, end_time) : db->timeCount(k, start_time, end_time);
+            if (info == TIME) num /= 60;
             if (interval == DAY)
-                series[i / step_min].second += num;
+                series[i / step_min].second += num / GRID_NUM;
             else
-                series.push_back(make_pair(time_now.toMSecsSinceEpoch(), num));
+                series.push_back(make_pair(time_now.toMSecsSinceEpoch(), num / GRID_NUM));
         }
     }
     if (interval == DAY)
         for (auto &wi : series)
             wi.second /= DAY_NUM;
 }
+
+void InfoPlot::calcArea(vector<pair<long long, pair<double, double>>> &area) { const int step_min = 20; }
+
+void InfoPlot::plotArea() {}

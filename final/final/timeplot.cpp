@@ -140,19 +140,19 @@ void TimePlot::plotMap() {
         //        this->moveToThread(painter);
         //        db->moveToThread(painter);
         //        painter->start();
-        plotSeriesMap();
+        plotSeries();
     } else {
         //        auto painter = new myThread();
         //        connect(painter, &myThread::funcStart, this, &TimePlot::plotPieMap);
         //        this->moveToThread(painter);
         //        db->moveToThread(painter);
         //        painter->start();
-        plotPieMap();
+        plotPie();
     }
 }
 
 void TimePlot::calcSeries(vector<pair<long long, int>> &data_series) {
-    for (auto i = start_datetime.toSecsSinceEpoch(); i + step_min <= end_datetime.toSecsSinceEpoch();
+    for (auto i = start_datetime.toSecsSinceEpoch(); i + step_min * 60 <= end_datetime.toSecsSinceEpoch();
          i += step_min * 60) {
         int num = 0;
         for (auto &id : grid_id)
@@ -161,7 +161,7 @@ void TimePlot::calcSeries(vector<pair<long long, int>> &data_series) {
     }
 }
 
-void TimePlot::plotSeriesMap() {
+void TimePlot::plotSeries() {
     QFont font("consolas", 10);
     //    auto series = new QLineSeries();
     auto series = new QSplineSeries();
@@ -182,8 +182,8 @@ void TimePlot::plotSeriesMap() {
 
     // x_axis
     auto x_axis = new QDateTimeAxis();
-    x_axis->setTickCount(10);
-    x_axis->setFormat("dd h:mm ");
+    x_axis->setTickCount(8);
+    x_axis->setFormat("dd h:mm");
     x_axis->setTitleText("time");
     x_axis->setGridLineVisible(true);
     x_axis->setLabelsAngle(-45);
@@ -196,7 +196,7 @@ void TimePlot::plotSeriesMap() {
     // y_axis
     auto y_axis = new QValueAxis();
     y_axis->setLabelFormat("%i");
-    y_axis->setTitleText("order number");
+    y_axis->setTitleText("order number/step minutes");
     y_axis->setRange(0, max_value);
     y_axis->setLabelsFont(font);
     chart->addAxis(y_axis, Qt::AlignLeft);
@@ -211,7 +211,7 @@ void TimePlot::plotSeriesMap() {
     //    emit resetPlot(this);
 }
 
-void TimePlot::plotPieMap() {
+void TimePlot::plotPie() {
     QFont font("consolas", 10);
     auto series = new QPieSeries();
     vector<pair<long long, int>> data_series;
