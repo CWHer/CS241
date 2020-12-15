@@ -3,10 +3,6 @@
 - [ ] 美化欢迎界面
 - [ ] 图标
 - [ ] 支持后期删除和加入数据x
-- [ ] 数据选择
-- [ ] 地图绘制
-- [ ] elective：thermal/direction
-- [ ] elective：route plan (单源最短路)
 - [ ] 增加数据处理线程x
 - [ ] 多线程加快读入x
 - [ ] 修复内存泄漏x
@@ -17,17 +13,17 @@
 
 | 名称          | 作用                                                      | 函数                       |
 | ------------- | --------------------------------------------------------- | -------------------------- |
-| MainWindow    | 主界面                                                    |                            |
+| MainWindow    | 主界面，包含四个tab                                       |                            |
 | WelcomeWidget | 欢迎界面，选择数据，调用DataBase读取                      | getPath/                   |
 | myThread      | 发送funcStart信号                                         |                            |
 | DataBase      | 存储数据的类，解析文件夹，读取数据，处理数据，Count类函数 | parseFolder/loadData/Count |
-| SpatialPlot   | 用于生成绘制空图案的widget                                |                            |
-| TimePlot      | 绘制时间相关内容                                          |                            |
-| InfoPlot      | 绘制其它重要信息                                          |                            |
-| xxxPlot       | 上述三个绘图类的基类                                      |                            |
+| SpatialPlot   | 用于生成绘制热力图的widget                                |                            |
+| TimePlot      | 绘制时间相关内容（线图，饼图）                            |                            |
+| InfoPlot      | 绘制其它重要信息（流入流出比，fee，time）                 |                            |
+| RoutePlan     | 用于路径规划                                              |                            |
+| xxxPlot       | 上述四个绘图类的基类                                      |                            |
 | GridSelector  | 选择grid id的对话框                                       |                            |
 | ThermalMap    | 绘有地图的热力图背景窗口                                  |                            |
-|               |                                                           |                            |
 
 #### Ver 0.1
 
@@ -108,9 +104,10 @@ lambda表达式和函数指针真好用.jpg
 
 #### Ver 0.6
 
+- [x] 完成热力图
+
 - [x] 在右侧绘制地图，使用`QPainter`绘制地图
 - [x] 在`DataBase`中新增了count至pixel的方法
-- [x] 完成热力图
 
 每个像素点根据经纬度，确定item数量
 
@@ -128,14 +125,9 @@ lambda表达式和函数指针真好用.jpg
 
 - [ ] 完成路线规划
 - [x] 增加`RoutePlan`的窗口
-
-
-
-
-
-
-
-
+- [ ] 鼠标点击转化为经纬度
+- [ ] 最短路规划路径
+- [ ] 绘制路径
 
 
 
