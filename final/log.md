@@ -15,19 +15,19 @@
 
 #### 模块列表
 
-| 名称          | 作用                                         | 函数                 |
-| ------------- | -------------------------------------------- | -------------------- |
-| MainWindow    | 主界面                                       |                      |
-| WelcomeWidget | 欢迎界面，选择数据，调用DataBase读取         | getPath/setBarValue  |
-| myThread      | 发送funcStart信号                            |                      |
-| DataBase      | 存储数据的类，解析文件夹，读取数据，处理数据 | parseFolder/loadData |
-| SpatialPlot   | 用于生成绘制空图案的widget                   | setupLayouts         |
-| TimePlot      | 绘制时间相关内容                             |                      |
-| InfoPlot      | 绘制其它重要信息                             |                      |
-| xxxPlot       | 上述三个绘图类的基类                         |                      |
-| GridSelector  | 选择grid id的对话框                          |                      |
-| ThermalMap    | 绘有地图的热力图背景窗口                     |                      |
-|               |                                              |                      |
+| 名称          | 作用                                                      | 函数                       |
+| ------------- | --------------------------------------------------------- | -------------------------- |
+| MainWindow    | 主界面                                                    |                            |
+| WelcomeWidget | 欢迎界面，选择数据，调用DataBase读取                      | getPath/                   |
+| myThread      | 发送funcStart信号                                         |                            |
+| DataBase      | 存储数据的类，解析文件夹，读取数据，处理数据，Count类函数 | parseFolder/loadData/Count |
+| SpatialPlot   | 用于生成绘制空图案的widget                                |                            |
+| TimePlot      | 绘制时间相关内容                                          |                            |
+| InfoPlot      | 绘制其它重要信息                                          |                            |
+| xxxPlot       | 上述三个绘图类的基类                                      |                            |
+| GridSelector  | 选择grid id的对话框                                       |                            |
+| ThermalMap    | 绘有地图的热力图背景窗口                                  |                            |
+|               |                                                           |                            |
 
 #### Ver 0.1
 
@@ -108,13 +108,19 @@ lambda表达式和函数指针真好用.jpg
 
 #### Ver 0.6
 
-`todo`
+- [x] 在右侧绘制地图，使用`QPainter`绘制地图
 
-使用`QPainter`绘制地图
+- [x] 完成热力图
 
-- [x] 在右侧绘制地图
+  每个像素点根据经纬度，确定item数量
 
-- [ ] 完成热力图
+  根据像素点的权值来渐变设置颜色
+
+  先绘制透明度图片，以便相互叠加，再转化为热力图
+
+  之后将热力图叠加到地图上
+
+![](../images/ver0.6.png)
 
 #### Ver 0.7
 

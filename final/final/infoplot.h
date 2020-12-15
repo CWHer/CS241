@@ -30,7 +30,7 @@ class InfoPlot : public xxxPlot {
 
   private:
     const int WIDTH, HEIGHT;
-    enum InfoType { TIME, FEE } info;
+    enum InfoType { TIME, FEE, IO } info;
     enum IntervalType { ALL, DAY } interval;
 };
 

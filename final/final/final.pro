@@ -12,11 +12,11 @@ CONFIG += c++11
 SOURCES += \
     database.cpp \
     gridselector.cpp \
+    heatmap.cpp \
     infoplot.cpp \
     main.cpp \
     mainwindow.cpp \
     spatialplot.cpp \
-    thermalmap.cpp \
     timeplot.cpp \
     welcomewidget.cpp
 
@@ -24,11 +24,11 @@ HEADERS += \
     common.h \
     database.h \
     gridselector.h \
+    heatmap.h \
     infoplot.h \
     mainwindow.h \
     mythread.hpp \
     spatialplot.h \
-    thermalmap.h \
     timeplot.h \
     utils.h \
     welcomewidget.h \

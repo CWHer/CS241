@@ -8,6 +8,7 @@
 #include <QDateTime>
 #include <QDateTimeAxis>
 #include <QDateTimeEdit>
+#include <QDebug>
 #include <QDialog>
 #include <QDir>
 #include <QErrorMessage>
@@ -30,6 +31,7 @@
 #include <QTreeWidgetItem>
 #include <QVBoxLayout>
 #include <QValueAxis>
+#include <cmath>
 #include <memory>
 #include <utility>
 #include <vector>
@@ -46,6 +48,7 @@ struct Tour {
     QString id;
     int start, end;
     Pos src, dst;
+    // lng,lat
     double fee;
 };
 const auto GRID_NUM = 100;
@@ -53,6 +56,7 @@ const auto GRID_PER = 10;
 struct Grid {
     int id;
     Pos y1, y2, x1, x2;
+    // LU,RU,LD,UD
 };
 
 #endif // COMMON_H

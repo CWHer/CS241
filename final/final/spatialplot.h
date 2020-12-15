@@ -2,7 +2,7 @@
 #define SPATICALPLOT_H
 
 #include "common.h"
-#include "thermalmap.h"
+#include "heatmap.h"
 #include "xxxplot.h"
 
 // data filter + graph
@@ -16,15 +16,16 @@ class SpatialPlot : public xxxPlot {
     QDateTime start_datetime, end_datetime;
     QProgressBar *progress_bar;
     QPushButton *apply_button;
-    ThermalMap *main_widget;
+    HeatMap *main_widget;
     void setupLayouts() override;
     void setupConnects() override;
     void plotMap() override;
 
   private:
     const int WIDTH, HEIGHT;
-    void plotThermal();
-    QString item_type;
+    void plotHeat();
+    void calcHeat(vector<vector<double>> &);
+    enum TYPE { IN, OUT, FEE, TIME } item_type;
 };
 
 #endif // SPATICALPLOT_H

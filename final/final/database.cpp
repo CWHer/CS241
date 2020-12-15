@@ -76,6 +76,11 @@ inline int DataBase::searchGridID(const Pos &pos) {
     return (c - 1) * GRID_PER + r - 1;
 }
 
+template <class T> bool DataBase::isMid(T ql, T mid, T qr) {
+    //
+    return ql <= mid && mid <= qr;
+}
+
 void DataBase::initData() {
     int cnt = 0;
     for (const auto &day : tours) {
@@ -148,6 +153,71 @@ double DataBase::timeCount(int id, int ql, int qr) {
     int rs = lower_bound<Tour>(start_tour[id], func, end_key);
     if (ls == rs) return 0;
     return (time_sum[id][rs] - time_sum[id][ls]) / (rs - ls);
+}
+
+// i,j from left_top corner
+Pos DataBase::pixel2pos(int i, int j) {
+    static const double lng_max = 104.222044525468;
+    static const double lng_min = 103.908407474531;
+    static const double lat_min = 30.524081949676;
+    static const double lat_max = 30.7938780503239;
+    double dx_lng = (lng_max - lng_min) / IMG_SIZE;
+    double dy_lat = (lat_max - lat_min) / IMG_SIZE;
+    return make_pair(lng_min + dx_lng * j, lat_min + dy_lat * (IMG_SIZE - 1 - i));
+}
+
+Pos DataBase::pos2pixel(double lng, double lat) {
+    static const double lng_max = 104.222044525468;
+    static const double lng_min = 103.908407474531;
+    static const double lat_min = 30.524081949676;
+    static const double lat_max = 30.7938780503239;
+    double dx_lng = (lng_max - lng_min) / IMG_SIZE;
+    double dy_lat = (lat_max - lat_min) / IMG_SIZE;
+    return make_pair((lng - lng_min + eps) / dx_lng, IMG_SIZE - 1 - (lat - lat_min + eps) / dy_lat);
+}
+
+bool DataBase::validPixel(Pos pos) {
+    return (pos.first >= 0 && pos.first < IMG_SIZE) && (pos.second >= 0 && pos.second < IMG_SIZE);
+}
+
+void DataBase::startCount(vector<vector<double>> &pixel_cnt, int ql, int qr) {
+    for (int day = 0; day < DAY_NUM; ++day)
+        for (const auto &tour : tours[day])
+            if (isMid(ql, tour.start, qr)) {
+                Pos pos = pos2pixel(tour.src.first, tour.src.second);
+                if (!validPixel(pos)) continue;
+                pixel_cnt[pos.first][pos.second]++;
+            }
+}
+
+void DataBase::endCount(vector<vector<double>> &pixel_cnt, int ql, int qr) {
+    for (int day = 0; day < DAY_NUM; ++day)
+        for (const auto &tour : tours[day])
+            if (isMid(ql, tour.end, qr)) {
+                Pos pos = pos2pixel(tour.dst.first, tour.dst.second);
+                if (!validPixel(pos)) continue;
+                pixel_cnt[pos.first][pos.second]++;
+            }
+}
+
+void DataBase::feeCount(vector<vector<double>> &pixel_cnt, int ql, int qr) {
+    for (int day = 0; day < DAY_NUM; ++day)
+        for (const auto &tour : tours[day])
+            if (isMid(ql, tour.start, qr)) {
+                Pos pos = pos2pixel(tour.src.first, tour.src.second);
+                if (!validPixel(pos)) continue;
+                pixel_cnt[pos.first][pos.second] += tour.fee;
+            }
+}
+
+void DataBase::timeCount(vector<vector<double>> &pixel_cnt, int ql, int qr) {
+    for (int day = 0; day < DAY_NUM; ++day)
+        for (const auto &tour : tours[day])
+            if (isMid(ql, tour.start, qr)) {
+                Pos pos = pos2pixel(tour.src.first, tour.src.second);
+                if (!validPixel(pos)) continue;
+                pixel_cnt[pos.first][pos.second] += tour.end - tour.start;
+            }
 }
 
 // advanced version of std::lower_bound

@@ -26,6 +26,7 @@ void MainWindow::setupLayouts() {
     spatialplot = new SpatialPlot(WIDTH, HEIGHT, db, QThread::currentThread());
     //    connect(spatialplot, &SpatialPlot::resetPlot, this, &MainWindow::resetPlot);
     spatialplot->setupLayouts();
+    spatialplot->setupConnects();
     centralwidget->addTab(spatialplot->main_widget, "SpatialMap");
 
     timeplot = new TimePlot(WIDTH, HEIGHT, db, QThread::currentThread());

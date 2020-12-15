@@ -8,23 +8,19 @@ SpatialPlot::SpatialPlot(const int w, const int h, DataBase *_db, QThread *_thre
 void SpatialPlot::setupLayouts() {
     QFont font = QFont("consolas", 10);
     QDateTime default_date(QDate(2016, 11, 1), QTime(0, 0));
-    main_widget = new ThermalMap(WIDTH, HEIGHT);
+    main_widget = new HeatMap(WIDTH, HEIGHT);
     auto outer_layout = new QHBoxLayout(main_widget);
     // left part begin
     auto left_part = new QVBoxLayout();
 
     // initialize data_filter
     data_filter = new QTreeWidget();
-    data_filter->setHeaderLabel("Select");
+    data_filter->setHeaderLabel("Item");
     data_filter->setFont(font);
-    // add item
-    QTreeWidgetItem *item = new QTreeWidgetItem(data_filter);
-    item->setText(0, "Item");
-    item->setFont(0, font);
-    item->setFlags(item->flags() | Qt::ItemIsAutoTristate);
+    //    item->setFlags(item->flags() | Qt::ItemIsAutoTristate);
     QStringList tag_list = {"orders in", "orders out", "fee", "time"};
     for (const auto &tag : tag_list) {
-        auto ch = new QTreeWidgetItem(item);
+        auto ch = new QTreeWidgetItem(data_filter);
         ch->setText(0, tag);
         ch->setFont(0, font);
         ch->setCheckState(0, Qt::Unchecked);
@@ -90,27 +86,12 @@ void SpatialPlot::setupLayouts() {
     // right part begin
     auto right_part = new QVBoxLayout();
 
+    // plot area
     auto spacer = new QSpacerItem(HEIGHT, HEIGHT, QSizePolicy::Expanding, QSizePolicy::Expanding);
     right_part->addItem(spacer);
-    // initialize plot area
-    //    plot_area = new QWidget();
-    //    plot_area->setMinimumSize(WIDTH / 5 * 4, HEIGHT / 4 * 3);
-    //    plot_area->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    //    right_part->addWidget(plot_area);
-    //********************
-    //  under refactor
-    // initialize button group
-    auto button_group = new QHBoxLayout();
-    auto time_button = new QPushButton();
-    button_group->addWidget(time_button);
-    auto place_button = new QPushButton();
-    button_group->addWidget(place_button);
-
-    //    right_part->addLayout(button_group);
     outer_layout->addLayout(right_part);
     // right part end
-
-    //    plot_area->setStyleSheet("back.jpg");
+    main_widget->progress_bar = progress_bar;
 }
 void SpatialPlot::setupConnects() {
     //
@@ -118,20 +99,52 @@ void SpatialPlot::setupConnects() {
 }
 
 void SpatialPlot::plotMap() {
+    main_widget->type = HeatMap::FREE;
     progress_bar->setValue(0);
     // get settings
     start_datetime = start_edit->dateTime();
     end_datetime = end_edit->dateTime();
+    bool is_checked = false;
     for (int i = 0; i < data_filter->topLevelItemCount(); ++i)
         if (data_filter->topLevelItem(i)->checkState(0) == Qt::Checked) {
-            item_type = data_filter->topLevelItem(i)->text(0);
+            item_type = (TYPE)i;
+            is_checked = true;
             break;
         }
-    progress_bar->setValue(33);
+    if (!is_checked) return;
 
-    plotThermal();
+    progress_bar->setValue(20);
+    plotHeat();
 }
 
-void SpatialPlot::plotThermal() {
-    //
+void SpatialPlot::calcHeat(vector<vector<double>> &pixel_cnt) {
+    const int PIXEL_SIZE = main_widget->IMG_SIZE;
+    pixel_cnt.resize(PIXEL_SIZE);
+    auto start_time = start_datetime.toSecsSinceEpoch();
+    auto end_time = end_datetime.toSecsSinceEpoch();
+    for (auto &wi : pixel_cnt)
+        wi.resize(PIXEL_SIZE);
+    db->IMG_SIZE = PIXEL_SIZE;
+
+    switch (item_type) {
+        case IN:
+            db->startCount(pixel_cnt, start_time, end_time);
+            break;
+        case OUT:
+            db->endCount(pixel_cnt, start_time, end_time);
+            break;
+        case FEE:
+            db->feeCount(pixel_cnt, start_time, end_time);
+            break;
+        case TIME:
+            db->timeCount(pixel_cnt, start_time, end_time);
+            break;
+    }
+}
+
+void SpatialPlot::plotHeat() {
+    vector<vector<double>> pixel_cnt;
+    calcHeat(pixel_cnt);
+    progress_bar->setValue(40);
+    main_widget->updateMap(pixel_cnt);
 }
