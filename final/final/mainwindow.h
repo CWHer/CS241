@@ -4,6 +4,7 @@
 #include "common.h"
 #include "database.h"
 #include "infoplot.h"
+#include "routeplan.h"
 #include "spatialplot.h"
 #include "timeplot.h"
 #include "utils.h"
@@ -38,6 +39,7 @@ class MainWindow : public QMainWindow {
     SpatialPlot *spatialplot;
     TimePlot *timeplot;
     InfoPlot *infoplot;
+    RoutePlan *routeplan;
 
   public:
     void setupLayouts();

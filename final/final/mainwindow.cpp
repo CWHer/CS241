@@ -41,6 +41,11 @@ void MainWindow::setupLayouts() {
     infoplot->setupConnects();
     centralwidget->addTab(infoplot->main_widget, "Infomation");
 
+    routeplan = new RoutePlan(WIDTH, HEIGHT, db, QThread::currentThread());
+    routeplan->setupLayouts();
+    routeplan->setupConnects();
+    centralwidget->addTab(routeplan->main_widget, "Route Plan");
+
     this->setCentralWidget(centralwidget);
     // centralwidget end
 }

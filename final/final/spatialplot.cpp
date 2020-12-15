@@ -6,7 +6,7 @@ SpatialPlot::SpatialPlot(const int w, const int h, DataBase *_db, QThread *_thre
     , HEIGHT(h) {}
 
 void SpatialPlot::setupLayouts() {
-    QFont font = QFont("consolas", 10);
+    QFont font("consolas", 10);
     QDateTime default_date(QDate(2016, 11, 1), QTime(0, 0));
     main_widget = new HeatMap(WIDTH, HEIGHT);
     auto outer_layout = new QHBoxLayout(main_widget);

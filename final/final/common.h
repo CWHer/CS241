@@ -16,6 +16,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
+#include <QLineEdit>
 #include <QLineSeries>
 #include <QLocale>
 #include <QPieSeries>
@@ -25,6 +26,7 @@
 #include <QSplineSeries>
 #include <QString>
 #include <QTabWidget>
+#include <QTextEdit>
 #include <QTextStream>
 #include <QThread>
 #include <QTreeWidget>
