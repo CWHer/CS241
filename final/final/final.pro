@@ -16,6 +16,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     spatialplot.cpp \
+    thermalmap.cpp \
     timeplot.cpp \
     welcomewidget.cpp
 
@@ -27,6 +28,7 @@ HEADERS += \
     mainwindow.h \
     mythread.hpp \
     spatialplot.h \
+    thermalmap.h \
     timeplot.h \
     utils.h \
     welcomewidget.h \

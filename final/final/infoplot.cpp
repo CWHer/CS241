@@ -3,7 +3,9 @@
 InfoPlot::InfoPlot(const int w, const int h, DataBase *_db, QThread *_thread)
     : xxxPlot(_db, _thread)
     , WIDTH(w)
-    , HEIGHT(h) {}
+    , HEIGHT(h) {
+    selector = new GridSelector();
+}
 
 void InfoPlot::setupLayouts() {
     QFont font = QFont("consolas", 10);
@@ -48,9 +50,25 @@ void InfoPlot::setupLayouts() {
     left_part->addWidget(info_filter);
     // filter end
 
-    // progress bar and apply button
-    auto progress_part = new QHBoxLayout();
+    // select and apply button
+    auto button_part = new QHBoxLayout();
 
+    select_button = new QPushButton();
+    select_button->setText("Select");
+    select_button->setFont(font);
+    select_button->setMinimumWidth(60);
+    button_part->addWidget(select_button);
+
+    apply_button = new QPushButton();
+    apply_button->setText("apply");
+    apply_button->setFont(font);
+    apply_button->setMinimumWidth(60);
+    button_part->addWidget(apply_button);
+
+    left_part->addLayout(button_part);
+
+    // progress bar
+    auto progress_part = new QHBoxLayout();
     progress_bar = new QProgressBar();
     progress_bar->setRange(0, 100);
     progress_bar->setValue(0);
@@ -59,12 +77,6 @@ void InfoPlot::setupLayouts() {
     progress_bar->setMinimumHeight(20);
     progress_bar->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     progress_part->addWidget(progress_bar);
-
-    apply_button = new QPushButton();
-    apply_button->setText("apply");
-    apply_button->setFont(font);
-    apply_button->setMinimumWidth(60);
-    progress_part->addWidget(apply_button);
 
     left_part->addLayout(progress_part);
     outer_layout->addLayout(left_part);
@@ -81,8 +93,8 @@ void InfoPlot::setupLayouts() {
 }
 
 void InfoPlot::setupConnects() {
-    // button -> plotMap
     connect(apply_button, &QPushButton::clicked, this, &InfoPlot::plotMap);
+    connect(select_button, &QPushButton::clicked, selector, &GridSelector::selectGrid);
 }
 
 void InfoPlot::plotMap() {
@@ -98,6 +110,7 @@ void InfoPlot::plotMap() {
     if (plot_type.isEmpty()) return;
     info = plot_type.indexOf("time") != -1 ? TIME : FEE;
     interval = plot_type.indexOf("day") != -1 ? DAY : ALL;
+    grid_id = selector->grid_id;
     progress_bar->setValue(33);
 
     // tend to use another thread to plot
@@ -174,8 +187,8 @@ void InfoPlot::calcSeries(vector<pair<long long, double>> &series) {
             auto start_time = time_now.toSecsSinceEpoch();
             auto end_time = start_time + step_min * 60;
             double num = 0;
-            for (auto k = 0; k < GRID_NUM; ++k)
-                num += info == FEE ? db->feeCount(k, start_time, end_time) : db->timeCount(k, start_time, end_time);
+            for (auto &id : grid_id)
+                num += info == FEE ? db->feeCount(id, start_time, end_time) : db->timeCount(id, start_time, end_time);
             if (info == TIME) num /= 60;
             if (interval == DAY)
                 series[i / step_min].second += num / GRID_NUM;
@@ -200,9 +213,9 @@ void InfoPlot::calcArea(vector<pair<long long, pair<double, double>>> &area) {
             auto start_time = time_now.toSecsSinceEpoch();
             auto end_time = start_time + step_min * 60;
             double in_num = 0, out_num = 0;
-            for (auto k = 0; k < GRID_NUM; ++k) {
-                in_num += db->startCount(k, start_time, end_time);
-                out_num += db->endCount(k, start_time, end_time);
+            for (auto &id : grid_id) {
+                in_num += db->startCount(id, start_time, end_time);
+                out_num += db->endCount(id, start_time, end_time);
             }
             area[i / step_min].second.first += in_num;
             area[i / step_min].second.second += out_num;

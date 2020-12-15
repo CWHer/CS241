@@ -25,6 +25,8 @@
 | TimePlot      | 绘制时间相关内容                             |                      |
 | InfoPlot      | 绘制其它重要信息                             |                      |
 | xxxPlot       | 上述三个绘图类的基类                         |                      |
+| GridSelector  | 选择grid id的对话框                          |                      |
+| ThermalMap    | 绘有地图的热力图背景窗口                     |                      |
 |               |                                              |                      |
 
 #### Ver 0.1
@@ -87,8 +89,6 @@ lambda表达式和函数指针真好用.jpg
 
 修复之前的bug
 
-`todo`
-
 - [x] 数据处理在数据读入之后进行，在全部完成后再转到主界面
 - [x] ~~读取数据增加cancel。~~无法添加cancel，但是增加了select和load
 - [x] 在DataBase中增加time和fee的前缀和来加快速度
@@ -97,18 +97,22 @@ lambda表达式和函数指针真好用.jpg
 - [x] `TimePlot`添加注记、坐标轴
 - [x] 使用QDateTimeEdit，修复时间转换的bug，~~大家都喜欢晚上开车.jpg~~
 - [x] 增加一个可以选择`grid`的`Dialog`
-- [ ] 给上述`Dialog`添加背景图片
+- [x] 给`grid Dialog`添加背景图片
 - [x] `Animation`没有效果，是option不是duration...
 - [x] 折线图拖动时坐标轴不会变化....，add之后才能attach
 - [x] `InfoPlot`添加注记、坐标轴
 - [x] `InfoPlot`增加流入流出对比
-- [ ] `InfoPlot`添加`Dialog`选择grid id
+- [x] `InfoPlot`添加`Dialog`选择grid id
 - [x] 程序结束后段错误......由于不同地方用了同一个spacer的指针....
 - [x] 画图速度太快了....直接在主线程处理....
 
 #### Ver 0.6
 
 `todo`
+
+使用`QPainter`绘制地图
+
+- [x] 在右侧绘制地图
 
 - [ ] 完成热力图
 

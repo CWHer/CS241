@@ -2,9 +2,18 @@
 
 GridSelector::GridSelector(QWidget *parent)
     : QDialog(parent) {
+    this->setFixedSize(WIDTH, HEIGHT);
     setWindowTitle("Select grid");
     setupLayouts();
     setupConnects();
+}
+
+void GridSelector::paintEvent(QPaintEvent *event) {
+    QPainter pen;
+    pen.begin(this);
+    pen.drawPixmap(EDGE_SIZE, EDGE_SIZE, WIDTH - 2 * EDGE_SIZE, WIDTH - 2 * EDGE_SIZE,
+                   std::move(QPixmap("../background.png")));
+    pen.end();
 }
 
 void GridSelector::setupLayouts() {
@@ -12,8 +21,13 @@ void GridSelector::setupLayouts() {
     auto outer_layer = new QVBoxLayout();
 
     button_group.resize(GRID_NUM);
-    for (auto &button : button_group)
+    for (auto &button : button_group) {
         button = new QCheckBox();
+        button->setCheckState(Qt::Checked);
+        button->setMinimumSize(80, 80);
+    }
+    for (int i = 0; i < GRID_NUM; ++i)
+        grid_id.push_back(i);
 
     // grid selection begin
     auto select_part = new QVBoxLayout();

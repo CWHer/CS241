@@ -16,12 +16,17 @@ void MainWindow::setWelcome() {
 
 void MainWindow::setupLayouts() {
     QFont font = QFont("consolas", 10);
-    this->resize(WIDTH, HEIGHT);
+    this->setFixedSize(WIDTH, HEIGHT);
     this->setWindowTitle("see it");
     this->setFont(font);
 
     // centralwidget begin
     centralwidget = new QTabWidget();
+
+    spatialplot = new SpatialPlot(WIDTH, HEIGHT, db, QThread::currentThread());
+    //    connect(spatialplot, &SpatialPlot::resetPlot, this, &MainWindow::resetPlot);
+    spatialplot->setupLayouts();
+    centralwidget->addTab(spatialplot->main_widget, "SpatialMap");
 
     timeplot = new TimePlot(WIDTH, HEIGHT, db, QThread::currentThread());
     //    connect(timeplot, &TimePlot::resetPlot, this, &MainWindow::resetPlot);
@@ -34,11 +39,6 @@ void MainWindow::setupLayouts() {
     infoplot->setupLayouts();
     infoplot->setupConnects();
     centralwidget->addTab(infoplot->main_widget, "Infomation");
-
-    spatialplot = new SpatialPlot(WIDTH, HEIGHT, db, QThread::currentThread());
-    //    connect(spatialplot, &SpatialPlot::resetPlot, this, &MainWindow::resetPlot);
-    spatialplot->setupLayouts();
-    centralwidget->addTab(spatialplot->main_widget, "SpatialMap");
 
     this->setCentralWidget(centralwidget);
     // centralwidget end

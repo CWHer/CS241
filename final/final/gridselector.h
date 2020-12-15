@@ -12,10 +12,14 @@ class GridSelector : public QDialog {
     void setupLayouts();
     void setupConnects();
     void selectGrid();
+    void paintEvent(QPaintEvent *) override;
 
   private:
     vector<QCheckBox *> button_group;
     QPushButton *apply_button;
+    static const int WIDTH = 800;
+    static const int HEIGHT = 840;
+    static const int EDGE_SIZE = 10;
 };
 
 #endif // GRIDSELECTOR_H

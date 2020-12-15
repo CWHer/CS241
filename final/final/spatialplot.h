@@ -2,6 +2,7 @@
 #define SPATICALPLOT_H
 
 #include "common.h"
+#include "thermalmap.h"
 #include "xxxplot.h"
 
 // data filter + graph
@@ -11,14 +12,19 @@ class SpatialPlot : public xxxPlot {
     explicit SpatialPlot(const int, const int, DataBase *, QThread *);
     QVBoxLayout *plot_layout;
     QTreeWidget *data_filter;
-    QProgressBar *bar;
-    QChartView *plot_area;
-    QWidget *main_widget;
+    QDateTimeEdit *start_edit, *end_edit;
+    QDateTime start_datetime, end_datetime;
+    QProgressBar *progress_bar;
+    QPushButton *apply_button;
+    ThermalMap *main_widget;
     void setupLayouts() override;
+    void setupConnects() override;
     void plotMap() override;
 
   private:
     const int WIDTH, HEIGHT;
+    void plotThermal();
+    QString item_type;
 };
 
 #endif // SPATICALPLOT_H
