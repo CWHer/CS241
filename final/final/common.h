@@ -1,6 +1,7 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+#include <QAreaSeries>
 #include <QChartView>
 #include <QCheckBox>
 #include <QComboBox>

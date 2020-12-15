@@ -20,6 +20,7 @@ class InfoPlot : public xxxPlot {
     QChartView *plot_area;
     // time(Msec) + num
     void calcSeries(vector<pair<long long, double>> &);
+    // time(Msec) + in_num + out_num
     void calcArea(vector<pair<long long, pair<double, double>>> &);
     void plotSeries();
     void plotArea();

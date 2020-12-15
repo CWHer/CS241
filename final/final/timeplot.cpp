@@ -175,7 +175,6 @@ void TimePlot::plotSeries() {
     }
 
     auto chart = new QChart();
-    chart->setAnimationDuration(QChart::SeriesAnimations);
     chart->legend()->hide();
     //    chart->setTitle("Number of Orders");
     chart->setFont(font);
@@ -191,7 +190,6 @@ void TimePlot::plotSeries() {
     x_axis->setLineVisible(true);
     x_axis->setRange(start_datetime, end_datetime);
     chart->addAxis(x_axis, Qt::AlignBottom);
-    series->attachAxis(x_axis);
 
     // y_axis
     auto y_axis = new QValueAxis();
@@ -202,6 +200,9 @@ void TimePlot::plotSeries() {
     chart->addAxis(y_axis, Qt::AlignLeft);
 
     chart->addSeries(series);
+    series->attachAxis(x_axis);
+    series->attachAxis(y_axis);
+    chart->setAnimationOptions(QChart::SeriesAnimations);
     plot_area->setChart(chart);
 
     //    this->moveToThread(main_thread);
@@ -238,7 +239,7 @@ void TimePlot::plotPie() {
     if (data_series.size() < visible_size) series->setLabelsVisible();
 
     auto chart = new QChart();
-    chart->setAnimationDuration(QChart::SeriesAnimations);
+    chart->setAnimationOptions(QChart::SeriesAnimations);
     chart->legend()->hide();
     //    chart->setTitle("Number of Orders");
     chart->setFont(font);

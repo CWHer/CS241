@@ -38,6 +38,10 @@ void InfoPlot::setupLayouts() {
     ch4->setText(0, "order fees a day");
     ch4->setFont(0, font);
     ch4->setCheckState(0, Qt::Unchecked);
+    auto ch5 = new QTreeWidgetItem(info_filter);
+    ch5->setText(0, "orders in/out a day");
+    ch5->setFont(0, font);
+    ch5->setCheckState(0, Qt::Unchecked);
 
     info_filter->setMinimumWidth(WIDTH / 4);
     info_filter->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
@@ -98,6 +102,10 @@ void InfoPlot::plotMap() {
 
     // tend to use another thread to plot
     //  however fast enough to only use main
+    if (plot_type.indexOf("in/out") != -1) {
+        plotArea();
+        return;
+    }
     plotSeries();
 }
 
@@ -114,7 +122,7 @@ void InfoPlot::plotSeries() {
     }
 
     auto chart = new QChart();
-    chart->setAnimationDuration(QChart::SeriesAnimations);
+    chart->setAnimationOptions(QChart::SeriesAnimations);
     chart->legend()->hide();
     //    chart->setTitle("Number of Orders");
     chart->setFont(font);
@@ -135,9 +143,7 @@ void InfoPlot::plotSeries() {
     x_axis->setLabelsAngle(-45);
     x_axis->setLabelsFont(font);
     x_axis->setLineVisible(true);
-
     chart->addAxis(x_axis, Qt::AlignBottom);
-    series->attachAxis(x_axis);
 
     // y_axis
     auto y_axis = new QValueAxis();
@@ -148,6 +154,8 @@ void InfoPlot::plotSeries() {
     chart->addAxis(y_axis, Qt::AlignLeft);
 
     chart->addSeries(series);
+    series->attachAxis(x_axis);
+    series->attachAxis(y_axis);
     plot_area->setChart(chart);
     progress_bar->setValue(100);
 }
@@ -155,12 +163,13 @@ void InfoPlot::plotSeries() {
 void InfoPlot::calcSeries(vector<pair<long long, double>> &series) {
     const int step_min = 20;
     if (interval == DAY) {
+        auto offset = QDateTime(QDate(2016, 11, 1), QTime(0, 0)).toMSecsSinceEpoch();
         series.resize(24 * 60 / step_min);
-        for (auto i = 0; i < 24 * 60; i += step_min)
-            series[i / step_min].first = i * 60 * 1000;
+        for (long long i = 0; i < 24 * 60; i += step_min)
+            series[i / step_min].first = offset + i * 60 * 1000;
     }
     for (auto day = 1; day <= DAY_NUM; ++day) {
-        for (auto i = 0; i + step_min < 24 * 60; i += step_min) {
+        for (auto i = 0; i + step_min <= 24 * 60; i += step_min) {
             QDateTime time_now(QDate(2016, 11, day), QTime(i / 60, i % 60));
             auto start_time = time_now.toSecsSinceEpoch();
             auto end_time = start_time + step_min * 60;
@@ -179,6 +188,85 @@ void InfoPlot::calcSeries(vector<pair<long long, double>> &series) {
             wi.second /= DAY_NUM;
 }
 
-void InfoPlot::calcArea(vector<pair<long long, pair<double, double>>> &area) { const int step_min = 20; }
+void InfoPlot::calcArea(vector<pair<long long, pair<double, double>>> &area) {
+    const int step_min = 60;
+    auto offset = QDateTime(QDate(2016, 11, 1), QTime(0, 0)).toMSecsSinceEpoch();
+    area.resize(24 * 60 / step_min);
+    for (auto i = 0; i < 24 * 60; i += step_min)
+        area[i / step_min].first = offset + i * 60 * 1000;
+    for (auto day = 1; day <= DAY_NUM; ++day) {
+        for (long long i = 0; i + step_min <= 24 * 60; i += step_min) {
+            QDateTime time_now(QDate(2016, 11, day), QTime(i / 60, i % 60));
+            auto start_time = time_now.toSecsSinceEpoch();
+            auto end_time = start_time + step_min * 60;
+            double in_num = 0, out_num = 0;
+            for (auto k = 0; k < GRID_NUM; ++k) {
+                in_num += db->startCount(k, start_time, end_time);
+                out_num += db->endCount(k, start_time, end_time);
+            }
+            area[i / step_min].second.first += in_num;
+            area[i / step_min].second.second += out_num;
+        }
+    }
+    for (auto &wi : area) {
+        wi.second.first /= DAY_NUM;
+        wi.second.second /= DAY_NUM;
+    }
+}
 
-void InfoPlot::plotArea() {}
+void InfoPlot::plotArea() {
+    QFont font("consolas", 10);
+    vector<pair<long long, pair<double, double>>> data_area;
+    calcArea(data_area);
+    progress_bar->setValue(90);
+
+    double max_value = 0;
+    auto base_line = new QLineSeries();
+    auto in_line = new QSplineSeries();
+    auto in_out_line = new QSplineSeries();
+    for (const auto &wi : data_area) {
+        base_line->append(wi.first, 0);
+        in_line->append(wi.first, wi.second.first);
+        in_out_line->append(wi.first, wi.second.first + wi.second.second);
+        max_value = std::max(max_value, wi.second.first + wi.second.second);
+    }
+    auto in_area = new QAreaSeries(base_line, in_line);
+    auto out_area = new QAreaSeries(in_line, in_out_line);
+
+    auto chart = new QChart();
+    chart->setAnimationOptions(QChart::SeriesAnimations);
+    chart->legend()->hide();
+    //    chart->setTitle("Number of Orders");
+    chart->setFont(font);
+
+    // x_axis
+    auto x_axis = new QDateTimeAxis();
+    x_axis->setTickCount(10);
+    x_axis->setFormat("hh:mm");
+    x_axis->setRange(QDateTime(QDate(2016, 11, 1), QTime(0, 0)), QDateTime(QDate(2016, 11, 2), QTime(0, 0)));
+    x_axis->setTitleText("time");
+    x_axis->setGridLineVisible(true);
+    x_axis->setLabelsAngle(-45);
+    x_axis->setLabelsFont(font);
+    x_axis->setLineVisible(true);
+    chart->addAxis(x_axis, Qt::AlignBottom);
+
+    // y_axis
+    auto y_axis = new QValueAxis();
+    y_axis->setLabelFormat("%i");
+    y_axis->setTitleText("orders number (in/out)");
+    y_axis->setRange(0, max_value);
+    y_axis->setLabelsFont(font);
+    chart->addAxis(y_axis, Qt::AlignLeft);
+
+    chart->addSeries(in_area);
+    chart->addSeries(out_area);
+    // can only attach after add
+    //    in_area->attachAxis(x_axis);
+    //    out_area->attachAxis(x_axis);
+    in_area->attachAxis(y_axis);
+    out_area->attachAxis(y_axis);
+
+    plot_area->setChart(chart);
+    progress_bar->setValue(100);
+}
