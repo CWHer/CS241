@@ -191,9 +191,9 @@ void InfoPlot::calcSeries(vector<pair<long long, double>> &series) {
                 num += info == FEE ? db->feeCount(id, start_time, end_time) : db->timeCount(id, start_time, end_time);
             if (info == TIME) num /= 60;
             if (interval == DAY)
-                series[i / step_min].second += num / GRID_NUM;
+                series[i / step_min].second += num / grid_id.size();
             else
-                series.push_back(make_pair(time_now.toMSecsSinceEpoch(), num / GRID_NUM));
+                series.push_back(make_pair(time_now.toMSecsSinceEpoch(), num / grid_id.size()));
         }
     }
     if (interval == DAY)
