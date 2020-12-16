@@ -1,9 +1,9 @@
 #include "gridselector.h"
 
-GridSelector::GridSelector(QWidget *parent)
-    : QDialog(parent) {
+GridSelector::GridSelector(bool empty) {
     this->setFixedSize(WIDTH, HEIGHT);
     setWindowTitle("Select grid");
+    init_empty = empty;
     setupLayouts();
     setupConnects();
 }
@@ -23,11 +23,12 @@ void GridSelector::setupLayouts() {
     button_group.resize(GRID_NUM);
     for (auto &button : button_group) {
         button = new QCheckBox();
-        button->setCheckState(Qt::Checked);
+        button->setCheckState(init_empty ? Qt::Unchecked : Qt::Checked);
         button->setMinimumSize(80, 80);
     }
-    for (int i = 0; i < GRID_NUM; ++i)
-        grid_id.push_back(i);
+    if (!init_empty)
+        for (int i = 0; i < GRID_NUM; ++i)
+            grid_id.push_back(i);
 
     // grid selection begin
     auto select_part = new QVBoxLayout();

@@ -127,10 +127,10 @@ void SpatialPlot::calcHeat(vector<vector<double>> &pixel_cnt) {
 
     switch (item_type) {
         case IN:
-            db->startCount(pixel_cnt, start_time, end_time);
+            db->endCount(pixel_cnt, start_time, end_time);
             break;
         case OUT:
-            db->endCount(pixel_cnt, start_time, end_time);
+            db->startCount(pixel_cnt, start_time, end_time);
             break;
         case FEE:
             db->feeCount(pixel_cnt, start_time, end_time);

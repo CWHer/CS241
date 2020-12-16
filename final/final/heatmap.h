@@ -19,6 +19,7 @@ class HeatMap : public QWidget {
     pair<int, int> pixel2pos(pair<int, int>);
 
   private:
+    const double eps = 1e-8;
     QImage heat_img, alpha_img;
     // point raduis
     static const int RADIUS = 10;

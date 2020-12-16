@@ -16,7 +16,6 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
-#include <QLineEdit>
 #include <QLineSeries>
 #include <QLocale>
 #include <QPieSeries>
@@ -35,6 +34,7 @@
 #include <QValueAxis>
 #include <cmath>
 #include <memory>
+#include <queue>
 #include <utility>
 #include <vector>
 QT_CHARTS_USE_NAMESPACE

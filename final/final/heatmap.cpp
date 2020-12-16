@@ -58,21 +58,23 @@ void HeatMap::updateMap(const vector<vector<double>> &pixel_cnt) {
     for (const auto &wi : pixel_cnt)
         for (const auto &num : wi)
             max_value = std::max(max_value, num);
+
     // avoid divide by zero
-    if (std::fabs(max_value) < 1e-8) return;
+    if (std::fabs(max_value) < eps) return;
 
     // draw alpha map
     QPainter painter(&alpha_img);
     painter.setPen(Qt::transparent);
     for (int i = 0; i < IMG_SIZE; ++i) {
-        for (int j = 0; j < IMG_SIZE; ++j) {
-            double alpha = pixel_cnt[i][j] / max_value * 255;
-            QRadialGradient grad(i, j, RADIUS);
-            grad.setColorAt(0, QColor(0, 0, 0, alpha));
-            grad.setColorAt(1, QColor(0, 0, 0, 0));
-            painter.setBrush(grad);
-            painter.drawEllipse(QPoint(i, j), RADIUS, RADIUS);
-        }
+        for (int j = 0; j < IMG_SIZE; ++j)
+            if (pixel_cnt[i][j] > eps) {
+                double alpha = sqrt(pixel_cnt[i][j]) / sqrt(max_value) * 255;
+                QRadialGradient grad(i, j, RADIUS);
+                grad.setColorAt(0, QColor(0, 0, 0, alpha));
+                grad.setColorAt(1, QColor(0, 0, 0, 0));
+                painter.setBrush(grad);
+                painter.drawEllipse(QPoint(i, j), RADIUS, RADIUS);
+            }
     }
     // alpha map->heat map
     for (int i = 0; i < alpha_img.height(); i++) {

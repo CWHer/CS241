@@ -4,7 +4,7 @@ InfoPlot::InfoPlot(const int w, const int h, DataBase *_db, QThread *_thread)
     : xxxPlot(_db, _thread)
     , WIDTH(w)
     , HEIGHT(h) {
-    selector = new GridSelector();
+    selector = new GridSelector(true);
 }
 
 void InfoPlot::setupLayouts() {
@@ -202,7 +202,7 @@ void InfoPlot::calcSeries(vector<pair<long long, double>> &series) {
 }
 
 void InfoPlot::calcArea(vector<pair<long long, pair<double, double>>> &area) {
-    const int step_min = 60;
+    const int step_min = 20;
     auto offset = QDateTime(QDate(2016, 11, 1), QTime(0, 0)).toMSecsSinceEpoch();
     area.resize(24 * 60 / step_min);
     for (auto i = 0; i < 24 * 60; i += step_min)
@@ -214,8 +214,8 @@ void InfoPlot::calcArea(vector<pair<long long, pair<double, double>>> &area) {
             auto end_time = start_time + step_min * 60;
             double in_num = 0, out_num = 0;
             for (auto &id : grid_id) {
-                in_num += db->startCount(id, start_time, end_time);
-                out_num += db->endCount(id, start_time, end_time);
+                in_num += db->endCount(id, start_time, end_time);
+                out_num += db->startCount(id, start_time, end_time);
             }
             area[i / step_min].second.first += in_num;
             area[i / step_min].second.second += out_num;
