@@ -57,12 +57,12 @@ class DataBase : public QObject {
 
   public:
     int searchGridID(const Pos &);
+    Pos pixel2pos(int, int);
+    pair<int, int> pos2pixel(double, double);
 
   private:
     const double eps = 1e-10;
-    Pos pixel2pos(int, int);
-    Pos pos2pixel(double, double);
-    bool validPixel(Pos);
+    bool validPixel(pair<int, int>);
     template <class T> bool isMid(T, T, T);
     // std::function<bool(const T &, const T &)> func
     template <class T> int lower_bound(const vector<T> &, bool (*func)(const T &, const T &), T);

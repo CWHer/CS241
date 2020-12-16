@@ -23,7 +23,9 @@
 | RoutePlan     | 用于路径规划                                              |                            |
 | xxxPlot       | 上述四个绘图类的基类                                      |                            |
 | GridSelector  | 选择grid id的对话框                                       |                            |
-| ThermalMap    | 绘有地图的热力图背景窗口                                  |                            |
+| HeatMap       | 绘有地图的热力图背景窗口                                  |                            |
+| RouteMap      | 路径规划的窗口                                            |                            |
+|               |                                                           |                            |
 
 #### Ver 0.1
 
@@ -125,12 +127,14 @@ lambda表达式和函数指针真好用.jpg
 
 `todo`
 
-- [ ] 完成路线规划
+- [x] 完成路线规划
 - [x] 增加`RoutePlan`的窗口
 - [ ] 鼠标点击转化为经纬度
-- [ ] 最短路规划路径
-- [ ] 绘制路径
-- [ ] in/out bug?
+- [x] 最短路规划路径
+- [x] SPFA改用Dijkstra算法
+- [x] 绘制路径，类似热力图显示拥挤路段
+
+![](../images/ver0.7.png)
 
 
 

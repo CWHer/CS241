@@ -166,7 +166,7 @@ Pos DataBase::pixel2pos(int i, int j) {
     return make_pair(lng_min + dx_lng * j, lat_min + dy_lat * (IMG_SIZE - 1 - i));
 }
 
-Pos DataBase::pos2pixel(double lng, double lat) {
+pair<int, int> DataBase::pos2pixel(double lng, double lat) {
     static const double lng_max = 104.222044525468;
     static const double lng_min = 103.908407474531;
     static const double lat_min = 30.524081949676;
@@ -176,7 +176,7 @@ Pos DataBase::pos2pixel(double lng, double lat) {
     return make_pair((lng - lng_min + eps) / dx_lng, IMG_SIZE - 1 - (lat - lat_min + eps) / dy_lat);
 }
 
-bool DataBase::validPixel(Pos pos) {
+bool DataBase::validPixel(pair<int, int> pos) {
     return (pos.first >= 0 && pos.first < IMG_SIZE) && (pos.second >= 0 && pos.second < IMG_SIZE);
 }
 
@@ -184,7 +184,7 @@ void DataBase::startCount(vector<vector<double>> &pixel_cnt, int ql, int qr) {
     for (int day = 0; day < DAY_NUM; ++day)
         for (const auto &tour : tours[day])
             if (isMid(ql, tour.start, qr)) {
-                Pos pos = pos2pixel(tour.src.first, tour.src.second);
+                pair<int, int> pos = pos2pixel(tour.src.first, tour.src.second);
                 if (!validPixel(pos)) continue;
                 pixel_cnt[pos.first][pos.second]++;
             }
@@ -194,7 +194,7 @@ void DataBase::endCount(vector<vector<double>> &pixel_cnt, int ql, int qr) {
     for (int day = 0; day < DAY_NUM; ++day)
         for (const auto &tour : tours[day])
             if (isMid(ql, tour.end, qr)) {
-                Pos pos = pos2pixel(tour.dst.first, tour.dst.second);
+                pair<int, int> pos = pos2pixel(tour.dst.first, tour.dst.second);
                 if (!validPixel(pos)) continue;
                 pixel_cnt[pos.first][pos.second]++;
             }
@@ -204,7 +204,7 @@ void DataBase::feeCount(vector<vector<double>> &pixel_cnt, int ql, int qr) {
     for (int day = 0; day < DAY_NUM; ++day)
         for (const auto &tour : tours[day])
             if (isMid(ql, tour.start, qr)) {
-                Pos pos = pos2pixel(tour.src.first, tour.src.second);
+                pair<int, int> pos = pos2pixel(tour.src.first, tour.src.second);
                 if (!validPixel(pos)) continue;
                 pixel_cnt[pos.first][pos.second] += tour.fee;
             }
@@ -214,7 +214,7 @@ void DataBase::timeCount(vector<vector<double>> &pixel_cnt, int ql, int qr) {
     for (int day = 0; day < DAY_NUM; ++day)
         for (const auto &tour : tours[day])
             if (isMid(ql, tour.start, qr)) {
-                Pos pos = pos2pixel(tour.src.first, tour.src.second);
+                pair<int, int> pos = pos2pixel(tour.src.first, tour.src.second);
                 if (!validPixel(pos)) continue;
                 pixel_cnt[pos.first][pos.second] += tour.end - tour.start;
             }

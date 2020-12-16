@@ -16,6 +16,7 @@ SOURCES += \
     infoplot.cpp \
     main.cpp \
     mainwindow.cpp \
+    routemap.cpp \
     routeplan.cpp \
     spatialplot.cpp \
     timeplot.cpp \
@@ -29,6 +30,7 @@ HEADERS += \
     infoplot.h \
     mainwindow.h \
     mythread.hpp \
+    routemap.h \
     routeplan.h \
     spatialplot.h \
     timeplot.h \

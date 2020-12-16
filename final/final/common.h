@@ -33,6 +33,7 @@
 #include <QVBoxLayout>
 #include <QValueAxis>
 #include <cmath>
+#include <limits>
 #include <memory>
 #include <queue>
 #include <utility>

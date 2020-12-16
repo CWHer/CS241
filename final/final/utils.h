@@ -29,8 +29,6 @@ inline void read_grid(QString &line, Grid &cur) {
         error->showMessage("error line");
         return;
     }
-    // *************************
-    // not debuged yet
     cur.id = data[0].toInt();
     cur.y1 = make_pair(data[1].toDouble(), data[2].toDouble());
     cur.y2 = make_pair(data[3].toDouble(), data[4].toDouble());
