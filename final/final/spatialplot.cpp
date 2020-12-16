@@ -91,7 +91,6 @@ void SpatialPlot::setupLayouts() {
     right_part->addItem(spacer);
     outer_layout->addLayout(right_part);
     // right part end
-    main_widget->progress_bar = progress_bar;
 }
 void SpatialPlot::setupConnects() {
     //
@@ -147,4 +146,5 @@ void SpatialPlot::plotHeat() {
     calcHeat(pixel_cnt);
     progress_bar->setValue(40);
     main_widget->updateMap(pixel_cnt);
+    progress_bar->setValue(100);
 }

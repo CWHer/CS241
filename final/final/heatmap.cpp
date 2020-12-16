@@ -4,6 +4,8 @@ HeatMap::HeatMap(const int &w, const int &h)
     : IMG_SIZE(h - 2 * EDGE_SIZE) {
     //
     this->resize(w, h);
+    heat_img = QImage(IMG_SIZE, IMG_SIZE, QImage::Format_ARGB32);
+    alpha_img = QImage(IMG_SIZE, IMG_SIZE, QImage::Format_Alpha8);
     type = INIT;
 
     // generate gradient color list
@@ -46,21 +48,17 @@ void HeatMap::paintEvent(QPaintEvent *event) {
                        std::move(QPixmap("../background.png")));
     if (type == UPDATE) {
         pen.drawImage(width() - height() + EDGE_SIZE, EDGE_SIZE, heat_img);
-        progress_bar->setValue(100);
     }
     pen.end();
 }
 
 void HeatMap::updateMap(const vector<vector<double>> &pixel_cnt) {
-    QImage alpha_img(IMG_SIZE, IMG_SIZE, QImage::Format_Alpha8);
     alpha_img.fill(Qt::transparent);
-    heat_img = QImage(IMG_SIZE, IMG_SIZE, QImage::Format_ARGB32);
-    heat_img.fill(Qt::transparent);
     double max_value = 0;
-    // avoid divide by zero
     for (const auto &wi : pixel_cnt)
         for (const auto &num : wi)
             max_value = std::max(max_value, num);
+    // avoid divide by zero
     if (std::fabs(max_value) < 1e-8) return;
 
     // draw alpha map
@@ -78,10 +76,10 @@ void HeatMap::updateMap(const vector<vector<double>> &pixel_cnt) {
     }
     // alpha map->heat map
     for (int i = 0; i < alpha_img.height(); i++) {
-        const uchar *line_data = alpha_img.scanLine(i);
+        const uchar *line_alpha = alpha_img.scanLine(i);
         QRgb *line_heat = reinterpret_cast<QRgb *>(heat_img.scanLine(i));
         for (int j = 0; j < alpha_img.width(); j++)
-            line_heat[j] = col_list[line_data[j]];
+            line_heat[j] = col_list[line_alpha[j]];
     }
     type = UPDATE;
     update();

@@ -14,19 +14,18 @@ class HeatMap : public QWidget {
     const int IMG_SIZE;
     // map <---> widget
     static const int EDGE_SIZE = 20;
-    QProgressBar *progress_bar;
     enum TYPE { INIT, UPDATE, FREE } type;
+    pair<int, int> pos2pixel(pair<int, int>);
+    pair<int, int> pixel2pos(pair<int, int>);
 
   private:
-    QImage heat_img;
+    QImage heat_img, alpha_img;
     // point raduis
     static const int RADIUS = 10;
     static const int COL_MAX = 256;
     // heat map alpha
     static constexpr double HEAT_ALPHA = 200.0;
     QRgb col_list[COL_MAX];
-    pair<int, int> pos2pixel(pair<int, int>);
-    pair<int, int> pixel2pos(pair<int, int>);
 };
 
 #endif // HEATMAP_H
