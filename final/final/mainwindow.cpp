@@ -17,8 +17,9 @@ void MainWindow::setWelcome() {
 void MainWindow::setupLayouts() {
     QFont font = QFont("consolas", 10);
     this->setFixedSize(WIDTH, HEIGHT);
-    this->setWindowTitle("see it");
+    this->setWindowTitle("Analysis and Visualization of Online Ride-Hailing Order Data");
     this->setFont(font);
+    this->setWindowIcon(QIcon("../taxi.svg"));
 
     // centralwidget begin
     centralwidget = new QTabWidget();

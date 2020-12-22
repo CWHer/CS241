@@ -53,6 +53,8 @@ void GridSelector::setupLayouts() {
     outer_layer->addLayout(button_part);
 
     setLayout(outer_layer);
+    setWindowIcon(QIcon("../location.svg"));
+    setWindowTitle("Select Location");
 }
 void GridSelector::setupConnects() {
     // apply -> accepted

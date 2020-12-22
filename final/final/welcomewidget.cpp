@@ -5,15 +5,17 @@
 void WelcomeWidget::setupLayouts() {
     QFont font = QFont("consolas", 12);
     this->resize(WIDTH, HEIGHT);
-    this->setWindowTitle("see it!");
+    this->setWindowTitle("Analysis and Visualization");
     this->setFont(font);
+    this->setWindowIcon(QIcon("../taxi.svg"));
     QVBoxLayout *outerlayout = new QVBoxLayout(this);
 
     // top
     QHBoxLayout *top_layout = new QHBoxLayout();
     top_layout->addItem(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Expanding));
     QLabel *toplabel = new QLabel();
-    toplabel->setText("visualize taxi data\n select data folder and begin");
+    toplabel->setText("\nVisualize Taxi Data\nSelect data folder and begin");
+    toplabel->setAlignment(Qt::AlignHCenter);
     toplabel->setMinimumWidth(WIDTH);
     toplabel->setMinimumHeight(HEIGHT / 3);
     toplabel->setFont(font);
@@ -29,7 +31,7 @@ void WelcomeWidget::setupLayouts() {
     progress_bar->setValue(0);
     progress_bar->setFormat("%p%");
     progress_bar->setMinimumWidth(WIDTH / 5 * 3);
-    progress_bar->setMinimumHeight(WIDTH / 10);
+    progress_bar->setMinimumHeight(WIDTH / 12);
     progress_bar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     mid_layout->addWidget(progress_bar);
     //    bottomlayout->addItem(new QSpacerItem(WIDTH / 5, HEIGHT / 5, QSizePolicy::Expanding, QSizePolicy::Expanding));

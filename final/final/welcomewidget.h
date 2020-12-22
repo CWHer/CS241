@@ -14,8 +14,8 @@ class WelcomeWidget : public QWidget {
     DataBase *db;
 
   private:
-    static const auto WIDTH = 400;
-    static const auto HEIGHT = 600;
+    static const auto WIDTH = 600;
+    static const auto HEIGHT = 400;
     QPushButton *select_button, *load_button;
     QProgressBar *progress_bar;
     void getPath();
