@@ -40,7 +40,7 @@ void MainWindow::setupLayouts() {
     //    connect(infoplot, &InfoPlot::resetPlot, this, &MainWindow::resetPlot);
     infoplot->setupLayouts();
     infoplot->setupConnects();
-    centralwidget->addTab(infoplot->main_widget, "Infomation");
+    centralwidget->addTab(infoplot->main_widget, "Information");
 
     routeplan = new RoutePlan(WIDTH, HEIGHT, db, QThread::currentThread());
     routeplan->setupLayouts();

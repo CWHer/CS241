@@ -18,7 +18,7 @@ void SpatialPlot::setupLayouts() {
     data_filter->setHeaderLabel("Item");
     data_filter->setFont(font);
     //    item->setFlags(item->flags() | Qt::ItemIsAutoTristate);
-    QStringList tag_list = {"orders in", "orders out", "fee", "time"};
+    QStringList tag_list = {"Orders In", "Orders Out", "Fee", "Time"};
     for (const auto &tag : tag_list) {
         auto ch = new QTreeWidgetItem(data_filter);
         ch->setText(0, tag);
@@ -74,7 +74,7 @@ void SpatialPlot::setupLayouts() {
     progress_part->addWidget(progress_bar);
 
     apply_button = new QPushButton();
-    apply_button->setText("apply");
+    apply_button->setText("Apply");
     apply_button->setFont(font);
     apply_button->setMinimumWidth(60);
     progress_part->addWidget(apply_button);

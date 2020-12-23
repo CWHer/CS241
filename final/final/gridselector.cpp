@@ -2,7 +2,7 @@
 
 GridSelector::GridSelector(bool empty) {
     this->setFixedSize(WIDTH, HEIGHT);
-    setWindowTitle("Select grid");
+    setWindowTitle("Select Grids");
     init_empty = empty;
     setupLayouts();
     setupConnects();

@@ -17,7 +17,7 @@ void InfoPlot::setupLayouts() {
 
     // info filter
     info_filter = new QTreeWidget();
-    info_filter->setHeaderLabel("Infomation");
+    info_filter->setHeaderLabel("Information");
     info_filter->setFont(font);
 
     // add important information
@@ -25,23 +25,23 @@ void InfoPlot::setupLayouts() {
     // when interval == DAY
     //  gather data of same hour each day together
     auto ch1 = new QTreeWidgetItem(info_filter);
-    ch1->setText(0, "travel time overall");
+    ch1->setText(0, "Travel Time Overall");
     ch1->setFont(0, font);
     ch1->setCheckState(0, Qt::Unchecked);
     auto ch2 = new QTreeWidgetItem(info_filter);
-    ch2->setText(0, "travel time a day");
+    ch2->setText(0, "Travel Time a Day");
     ch2->setFont(0, font);
     ch2->setCheckState(0, Qt::Unchecked);
     auto ch3 = new QTreeWidgetItem(info_filter);
-    ch3->setText(0, "order fees overall");
+    ch3->setText(0, "Order Fees Overall");
     ch3->setFont(0, font);
     ch3->setCheckState(0, Qt::Unchecked);
     auto ch4 = new QTreeWidgetItem(info_filter);
-    ch4->setText(0, "order fees a day");
+    ch4->setText(0, "Order Fees a Day");
     ch4->setFont(0, font);
     ch4->setCheckState(0, Qt::Unchecked);
     auto ch5 = new QTreeWidgetItem(info_filter);
-    ch5->setText(0, "orders in/out a day");
+    ch5->setText(0, "Orders In/Out a Day");
     ch5->setFont(0, font);
     ch5->setCheckState(0, Qt::Unchecked);
 
@@ -60,7 +60,7 @@ void InfoPlot::setupLayouts() {
     button_part->addWidget(select_button);
 
     apply_button = new QPushButton();
-    apply_button->setText("apply");
+    apply_button->setText("Apply");
     apply_button->setFont(font);
     apply_button->setMinimumWidth(60);
     button_part->addWidget(apply_button);
@@ -108,14 +108,14 @@ void InfoPlot::plotMap() {
         }
 
     if (plot_type.isEmpty()) return;
-    info = plot_type.indexOf("time") != -1 ? TIME : FEE;
-    interval = plot_type.indexOf("day") != -1 ? DAY : ALL;
+    info = plot_type.indexOf("Time") != -1 ? TIME : FEE;
+    interval = plot_type.indexOf("Day") != -1 ? DAY : ALL;
     grid_id = selector->grid_id;
     progress_bar->setValue(33);
 
     // tend to use another thread to plot
     //  however fast enough to only use main
-    if (plot_type.indexOf("in/out") != -1) {
+    if (plot_type.indexOf("In/Out") != -1) {
         plotArea();
         return;
     }

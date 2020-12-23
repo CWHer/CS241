@@ -95,7 +95,7 @@ void RoutePlan::setupLayouts() {
     auto h_spacer = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Preferred);
     button_part->addItem(h_spacer);
     apply_button = new QPushButton();
-    apply_button->setText("apply");
+    apply_button->setText("Apply");
     apply_button->setFont(font);
     apply_button->setMinimumWidth(60);
     button_part->addWidget(apply_button);
