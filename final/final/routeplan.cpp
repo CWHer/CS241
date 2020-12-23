@@ -153,12 +153,12 @@ bool RoutePlan::validPixel(pair<int, int> pos) {
 
 void RoutePlan::Dijkstra(pair<int, int> src) {
     // init
-    const int BASE = 10;
+    const int BIAS = 10;
     const int PIXEL_SIZE = main_widget->IMG_SIZE;
     for (int i = 0; i < PIXEL_SIZE; ++i)
         for (int j = 0; j < PIXEL_SIZE; ++j) {
             // regular pixel_cnt
-            pixel_cnt[i][j] += BASE;
+            pixel_cnt[i][j] += BIAS;
             pixel_cnt[i][j] = sqrt(pixel_cnt[i][j]);
             dist[i][j] = std::numeric_limits<double>::max();
             used[i][j] = false;

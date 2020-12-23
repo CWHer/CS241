@@ -78,6 +78,7 @@ void HeatMap::updateMap(const vector<vector<double>> &pixel_cnt) {
                 painter.drawEllipse(QPoint(i, j), RADIUS, RADIUS);
             }
     }
+    //    alpha_img.save("test.png");
     // alpha map->heat map
     for (int i = 0; i < alpha_img.height(); i++) {
         const uchar *line_alpha = alpha_img.scanLine(i);

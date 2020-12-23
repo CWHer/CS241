@@ -164,7 +164,7 @@ lambda表达式和函数指针真好用.jpg
 
 #### Ver 2.0
 
-- [ ] 完成report
+- [x] 完成report
 
 #### Ver 2.1
 
