@@ -4,5 +4,4 @@ ans
 *.exe
 *.o
 *Debug
-test*
 build-final*
